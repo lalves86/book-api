@@ -1,5 +1,5 @@
 import { Book } from '@/domain/book'
-import { CreateBook } from '@/usecases/createBook'
+import { CreateBook } from '@/usecases/books/createBook'
 class BookRepositoryStub {
   async create (book: Book): Promise<Book> {
     return Promise.resolve({

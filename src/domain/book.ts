@@ -1,8 +1,4 @@
-type BookStatus = {
-  reading: 'Reading',
-  wannaRead: 'Wanna Read',
-  read: 'Read',
-}
+type BookStatus = 'Wanna read' | 'Reading' | 'Read'
 
 export type Book = {
   title: string;

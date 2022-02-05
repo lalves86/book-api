@@ -2,6 +2,7 @@ import Mockdate from 'mockdate'
 import { Book } from '@/domain/book'
 import { CreateBook } from '@/usecases/books/createBook'
 import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
+import { BookAlreadyExistsError } from '@/usecases/error/bookAlreadyExistsError'
 
 type sutTypes = {
   sut: CreateBook
@@ -43,13 +44,10 @@ describe('CreateBook', () => {
   })
 
   it('should not allow to add 2 books with the same title', async () => {
-    const { sut, bookRepositoryStub } = makeSut()
+    const { sut } = makeSut()
     jest.spyOn(sut, 'execute').mockReturnValueOnce(
-      Promise.reject(new Error('Book already exists'))
+      Promise.reject(new BookAlreadyExistsError('Book already exists'))
     )
-    jest.spyOn(bookRepositoryStub, 'getByTitle').mockImplementationOnce(() => {
-      throw new Error()
-    })
 
     const fakeBook: Book = {
       title: 'Fake Title 1',
@@ -61,6 +59,6 @@ describe('CreateBook', () => {
     }
     const promise = sut.execute(fakeBook)
 
-    await expect(promise).rejects.toThrow()
+    await expect(promise).rejects.toThrow(BookAlreadyExistsError)
   })
 })

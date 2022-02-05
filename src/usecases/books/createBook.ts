@@ -1,5 +1,6 @@
 import { Book } from '@/domain/book'
 import { BookRepository } from '@/repositories/ports/bookRepository'
+import { BookAlreadyExistsError } from '../error/bookAlreadyExistsError'
 import { UseCase } from '../ports/usecase'
 
 export class CreateBook implements UseCase<Book> {
@@ -10,7 +11,7 @@ export class CreateBook implements UseCase<Book> {
   async execute (book: Book): Promise<Book> {
     const bookExists = await this.bookRepository.getByTitle(book.title)
     if (bookExists) {
-      throw new Error('Book already exists')
+      throw new BookAlreadyExistsError('Book already exists')
     }
 
     return await this.bookRepository.create(book)

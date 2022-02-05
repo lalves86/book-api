@@ -4,7 +4,7 @@ export type Book = {
   title: string;
   author: string;
   createdAt: Date;
-  finishedAt: Date;
-  grade: number;
+  finishedAt?: Date;
+  grade?: number;
   status: BookStatus;
 }

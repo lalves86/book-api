@@ -1,13 +1,13 @@
 import { Book } from '@/domain/book'
-import { CreateBookRepository } from '@/repositories/ports/createBookRepository'
+import { BookRepository } from '@/repositories/ports/bookRepository'
 import { UseCase } from '../ports/usecase'
 
 export class CreateBook implements UseCase<Book> {
   constructor (
-    private readonly createBookRepository: CreateBookRepository
+    private readonly bookRepository: BookRepository
   ) {}
 
   async execute (book: Book): Promise<Book> {
-    return await this.createBookRepository.create(book)
+    return await this.bookRepository.create(book)
   }
 }

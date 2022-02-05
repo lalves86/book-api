@@ -1,17 +1,7 @@
+import Mockdate from 'mockdate'
 import { Book } from '@/domain/book'
 import { CreateBook } from '@/usecases/books/createBook'
-class BookRepositoryStub {
-  async create (book: Book): Promise<Book> {
-    return Promise.resolve({
-      title: 'Fake Title',
-      author: 'Fake Author',
-      createdAt: new Date(),
-      finishedAt: new Date(),
-      grade: 5,
-      status: 'Read'
-    })
-  }
-}
+import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
 
 const makeSut = (): CreateBook => {
   const bookRepositoryStub = new BookRepositoryStub()
@@ -19,6 +9,14 @@ const makeSut = (): CreateBook => {
 }
 
 describe('CreateBook', () => {
+  beforeAll(() => {
+    Mockdate.set(new Date())
+  })
+
+  afterAll(() => {
+    Mockdate.reset()
+  })
+
   it('should call book repository with correct parameters', async () => {
     const createBookUsecase = makeSut()
 

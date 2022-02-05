@@ -8,6 +8,11 @@ export class CreateBook implements UseCase<Book> {
   ) {}
 
   async execute (book: Book): Promise<Book> {
+    const bookExists = await this.bookRepository.getByTitle(book.title)
+    if (bookExists) {
+      throw new Error('Book already exists')
+    }
+
     return await this.bookRepository.create(book)
   }
 }

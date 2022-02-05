@@ -38,13 +38,6 @@ export class BookRepositoryStub {
   }
 
   async getByTitle (title: string): Promise<Book> {
-    return Promise.resolve({
-      title: 'Fake Title 1',
-      author: 'Fake Author 1',
-      createdAt: new Date(),
-      finishedAt: new Date(),
-      grade: 5,
-      status: 'Read'
-    })
+    return Promise.resolve(null)
   }
 }

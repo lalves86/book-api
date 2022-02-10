@@ -5,4 +5,5 @@ export interface BookRepository {
   list (): Promise<Book[]>
   listById (id: string): Promise<Book>
   getByTitle (title: string): Promise<Book>
+  update (book: Book): Promise<Book>
 }

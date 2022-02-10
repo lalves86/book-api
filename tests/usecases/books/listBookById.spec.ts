@@ -1,6 +1,7 @@
 import Mockdate from 'mockdate'
 import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
 import { ListBookById } from '@/usecases/books/listBookById'
+import { BookNotFoundError } from '@/usecases/error/bookNotFountError'
 
 const makeSut = (): ListBookById => {
   const bookRepositoryStub = new BookRepositoryStub()
@@ -17,9 +18,9 @@ describe('ListBookById', () => {
   })
 
   it('should call book repository with correct parameters', async () => {
-    const listBooksUsecase = makeSut()
+    const sut = makeSut()
 
-    const result = await listBooksUsecase.execute('fake_id')
+    const result = await sut.execute('fake_id')
 
     expect(result).toEqual({
       id: 'fake_id',
@@ -30,5 +31,16 @@ describe('ListBookById', () => {
       grade: 5,
       status: 'Read'
     })
+  })
+
+  it('should throw BookNotFoundError if id is not found', async () => {
+    const sut = makeSut()
+    jest.spyOn(sut, 'execute').mockReturnValueOnce(
+      Promise.reject(new BookNotFoundError('Book id not found'))
+    )
+
+    const promise = sut.execute('wrong_id')
+
+    await expect(promise).rejects.toThrow(BookNotFoundError)
   })
 })

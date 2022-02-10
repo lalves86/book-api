@@ -1,5 +1,6 @@
 import { Book } from '@/domain/book'
 import { BookRepository } from '@/repositories/ports/bookRepository'
+import { BookNotFoundError } from '../error/bookNotFountError'
 import { UseCase } from '../ports/usecase'
 
 export class ListBookById implements UseCase<Book> {
@@ -8,6 +9,10 @@ export class ListBookById implements UseCase<Book> {
   ) {}
 
   async execute (id: string): Promise<Book> {
-    return await this.bookRepository.listById(id)
+    const book = await this.bookRepository.listById(id)
+    if (!book) {
+      throw new BookNotFoundError('Book id not found')
+    }
+    return book
   }
 }

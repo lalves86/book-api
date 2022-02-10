@@ -1,4 +1,4 @@
-import { Book } from '../../domain/book'
+import { Book } from '@/domain/book'
 
 export interface BookRepository {
   create (book: Book): Promise<Book>
@@ -6,5 +6,5 @@ export interface BookRepository {
   listById (id: string): Promise<Book>
   getByTitle (title: string): Promise<Book>
   update (book: Book): Promise<Book>
-  delete (id: string): Promise<void>
+  delete (id: string): Promise<string>
 }

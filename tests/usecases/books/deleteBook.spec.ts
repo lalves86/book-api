@@ -20,7 +20,7 @@ describe('DeleteBook', () => {
   it('should call book repository with correct parameters', async () => {
     const sut = makeSut()
 
-    expect(await sut.execute('fake_id')).toBeUndefined()
+    expect(await sut.execute('fake_id')).toEqual('Book with id fake_id deleted')
   })
 
   it('should throw BookNotFoundError if id is not found', async () => {

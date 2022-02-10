@@ -1,6 +1,7 @@
 import { Book } from '@/domain/book'
+import { BookRepository } from '@/repositories/ports/bookRepository'
 
-export class BookRepositoryStub {
+export class BookRepositoryStub implements BookRepository {
   async create (book: Book): Promise<Book> {
     return Promise.resolve({
       id: 'fake_id',
@@ -69,7 +70,7 @@ export class BookRepositoryStub {
     })
   }
 
-  async delete (id: string): Promise<void> {
-    return Promise.resolve()
+  async delete (id: string): Promise<string> {
+    return Promise.resolve('Book with id fake_id deleted')
   }
 }

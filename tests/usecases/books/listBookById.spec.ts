@@ -1,7 +1,7 @@
 import Mockdate from 'mockdate'
 import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
-import { ListBookById } from '@/usecases/books/listBookById'
-import { BookNotFoundError } from '@/usecases/error/bookNotFountError'
+import { ListBookById } from '@/usecases/books'
+import { BookNotFoundError } from '@/usecases/error'
 
 const makeSut = (): ListBookById => {
   const bookRepositoryStub = new BookRepositoryStub()

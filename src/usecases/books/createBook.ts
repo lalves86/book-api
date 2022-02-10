@@ -1,6 +1,6 @@
 import { Book } from '@/domain/book'
 import { BookRepository } from '@/repositories/ports/bookRepository'
-import { BookAlreadyExistsError } from '../error/bookAlreadyExistsError'
+import { BookAlreadyExistsError } from '../error'
 import { UseCase } from '../ports/usecase'
 
 export class CreateBook implements UseCase<Book> {

@@ -1,5 +1,5 @@
 import Mockdate from 'mockdate'
-import { ListBooks } from '@/usecases/books/listBooks'
+import { ListBooks } from '@/usecases/books'
 import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
 
 const makeSut = (): ListBooks => {

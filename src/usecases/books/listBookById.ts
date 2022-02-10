@@ -1,6 +1,6 @@
 import { Book } from '@/domain/book'
 import { BookRepository } from '@/repositories/ports/bookRepository'
-import { BookNotFoundError } from '../error/bookNotFountError'
+import { BookNotFoundError } from '../error'
 import { UseCase } from '../ports/usecase'
 
 export class ListBookById implements UseCase<Book> {

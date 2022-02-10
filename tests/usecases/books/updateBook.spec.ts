@@ -10,16 +10,6 @@ const makeSut = (): UpdateBook => {
 }
 
 describe('UpdateBook', () => {
-  const fakeBook: Book = {
-    id: 'fake_id',
-    title: 'Fake Title',
-    author: 'Fake Author',
-    createdAt: new Date(),
-    finishedAt: new Date(),
-    grade: 5,
-    status: 'Read'
-  }
-
   beforeAll(() => {
     Mockdate.set(new Date())
   })
@@ -30,6 +20,16 @@ describe('UpdateBook', () => {
 
   it('should call book repository with correct parameters', async () => {
     const sut = makeSut()
+
+    const fakeBook: Book = {
+      id: 'fake_id',
+      title: 'Fake Title',
+      author: 'Fake Author',
+      createdAt: new Date(),
+      finishedAt: new Date(),
+      grade: 5,
+      status: 'Read'
+    }
 
     const result = await sut.execute(fakeBook)
 
@@ -42,7 +42,15 @@ describe('UpdateBook', () => {
       Promise.reject(new BookNotFoundError('Book id not found'))
     )
 
-    const promise = sut.execute(fakeBook)
+    const promise = sut.execute({
+      id: 'fake_id',
+      title: 'Fake Title',
+      author: 'Fake Author',
+      createdAt: new Date(),
+      finishedAt: new Date(),
+      grade: 5,
+      status: 'Read'
+    })
 
     await expect(promise).rejects.toThrow(BookNotFoundError)
   })

@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
+    "lint": "eslint 'src/**' --fix",
     "prepare": "husky install",
     "test": "jest"
   },

@@ -68,4 +68,8 @@ export class BookRepositoryStub {
       status: 'Read'
     })
   }
+
+  async delete (id: string): Promise<void> {
+    return Promise.resolve()
+  }
 }

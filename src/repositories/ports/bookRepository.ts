@@ -6,4 +6,5 @@ export interface BookRepository {
   listById (id: string): Promise<Book>
   getByTitle (title: string): Promise<Book>
   update (book: Book): Promise<Book>
+  delete (id: string): Promise<void>
 }

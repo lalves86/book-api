@@ -31,6 +31,7 @@ describe('CreateBook', () => {
     const { sut } = makeSut()
 
     const fakeBook: Book = {
+      id: 'fake_id',
       title: 'Fake Title',
       author: 'Fake Author',
       createdAt: new Date(),
@@ -50,6 +51,7 @@ describe('CreateBook', () => {
     )
 
     const fakeBook: Book = {
+      id: 'fake_id',
       title: 'Fake Title 1',
       author: 'Fake Author 1',
       createdAt: new Date(),

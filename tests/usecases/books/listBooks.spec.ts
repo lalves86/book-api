@@ -22,6 +22,7 @@ describe('ListBooks', () => {
     const result = await listBooksUsecase.execute()
 
     expect(result[0]).toEqual({
+      id: 'fake_id_1',
       title: 'Fake Title 1',
       author: 'Fake Author 1',
       createdAt: new Date(),

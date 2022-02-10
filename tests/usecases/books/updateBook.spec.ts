@@ -1,6 +1,6 @@
 import Mockdate from 'mockdate'
 import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
-import { BookNotFoundError } from '@/usecases/error'
+import { BookNotFoundError, InvalidDataError } from '@/usecases/error'
 import { UpdateBook } from '@/usecases/books'
 import { Book } from '@/domain/book'
 
@@ -53,5 +53,24 @@ describe('UpdateBook', () => {
     })
 
     await expect(promise).rejects.toThrow(BookNotFoundError)
+  })
+
+  it('should throw InvalidDataError grade is passed before finished reading', async () => {
+    const sut = makeSut()
+    jest.spyOn(sut, 'execute').mockReturnValueOnce(
+      Promise.reject(new InvalidDataError('You can only grade finished books')
+      )
+    )
+
+    const promise = sut.execute({
+      id: 'fake_id',
+      title: 'Fake Title',
+      author: 'Fake Author',
+      createdAt: new Date(),
+      grade: 5,
+      status: 'Read'
+    })
+
+    await expect(promise).rejects.toThrow(InvalidDataError)
   })
 })

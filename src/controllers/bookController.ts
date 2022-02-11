@@ -1,5 +1,5 @@
 import { CreateBook } from '@/usecases/books'
-import { HttpRequest, HttpResponse } from './types/http'
+import { HttpRequest, HttpResponse, HttpStatusCodes } from './types/http'
 
 export class BookController {
   constructor (private readonly createBook: CreateBook) {}
@@ -8,7 +8,7 @@ export class BookController {
     const { body } = httpRequest
     const response = await this.createBook.execute(body)
     return {
-      httpStatusCode: 201,
+      httpStatusCode: HttpStatusCodes.created.code,
       body: response
     }
   }

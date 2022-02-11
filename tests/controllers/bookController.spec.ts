@@ -4,6 +4,19 @@ import { HttpRequest, HttpResponse, HttpStatusCodes } from '@/controllers/types/
 import { CreateBook } from '@/usecases/books'
 import { BookRepositoryStub } from '@test/usecases/stubs/bookRepositoryStub'
 
+type SutTypes = {
+  sut: BookController
+}
+
+const makeSut = (): SutTypes => {
+  const bookRepository = new BookRepositoryStub()
+  const createBook: CreateBook = new CreateBook(bookRepository)
+  const sut = new BookController(createBook)
+  return {
+    sut
+  }
+}
+
 describe('BookController', () => {
   beforeAll(() => {
     Mockdate.set(new Date())
@@ -14,10 +27,7 @@ describe('BookController', () => {
   })
 
   it('should call CreateBook with correct parameters', async () => {
-    const bookRepository = new BookRepositoryStub()
-    const createBook: CreateBook = new CreateBook(bookRepository)
-    const sut = new BookController(createBook)
-
+    const { sut } = makeSut()
     const httpRequest: HttpRequest = {
       body: {
         id: 'fake_id',

@@ -5,11 +5,18 @@ export class BookController {
   constructor (private readonly createBook: CreateBook) {}
 
   async create (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const { body } = httpRequest
-    const response = await this.createBook.execute(body)
-    return {
-      httpStatusCode: HttpStatusCodes.created.code,
-      body: response
+    try {
+      const { body } = httpRequest
+      const response = await this.createBook.execute(body)
+      return {
+        httpStatusCode: HttpStatusCodes.created.code,
+        body: response
+      }
+    } catch (error) {
+      return {
+        httpStatusCode: HttpStatusCodes.serverError.code,
+        body: error.message
+      }
     }
   }
 }

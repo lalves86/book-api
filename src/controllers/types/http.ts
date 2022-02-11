@@ -15,5 +15,9 @@ export const HttpStatusCodes = {
   created: {
     code: 201,
     message: 'Created'
+  },
+  serverError: {
+    code: 500,
+    message: 'Internal Server Error'
   }
 }

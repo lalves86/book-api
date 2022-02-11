@@ -1,5 +1,5 @@
 import { CreateBook } from '@/usecases/books'
-import { HttpRequest, HttpResponse } from './types/controller'
+import { HttpRequest, HttpResponse } from './types/http'
 
 export class BookController {
   constructor (private readonly createBook: CreateBook) {}

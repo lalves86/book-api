@@ -1,6 +1,6 @@
 import Mockdate from 'mockdate'
 import { BookController } from '@/controllers/bookController'
-import { HttpRequest, HttpResponse } from '@/controllers/types/controller'
+import { HttpRequest, HttpResponse } from '@/controllers/types/http'
 import { CreateBook } from '@/usecases/books'
 import { BookRepositoryStub } from '@test/usecases/stubs/bookRepositoryStub'
 

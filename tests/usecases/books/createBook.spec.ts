@@ -45,20 +45,17 @@ describe('CreateBook', () => {
   })
 
   it('should not allow to add 2 books with the same title', async () => {
-    const { sut } = makeSut()
-    jest.spyOn(sut, 'execute').mockReturnValueOnce(
-      Promise.reject(new BookAlreadyExistsError('Book already exists'))
-    )
-
+    const { sut, bookRepositoryStub } = makeSut()
     const fakeBook: Book = {
       id: 'fake_id',
-      title: 'Fake Title 1',
-      author: 'Fake Author 1',
+      title: 'Fake Title',
+      author: 'Fake Author',
       createdAt: new Date(),
       finishedAt: new Date(),
       grade: 5,
       status: 'Read'
     }
+    jest.spyOn(bookRepositoryStub, 'getByTitle').mockReturnValueOnce(Promise.resolve(fakeBook))
     const promise = sut.execute(fakeBook)
 
     await expect(promise).rejects.toThrow(BookAlreadyExistsError)

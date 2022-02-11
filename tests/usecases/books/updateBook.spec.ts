@@ -4,9 +4,18 @@ import { BookNotFoundError, InvalidDataError } from '@/usecases/error'
 import { UpdateBook } from '@/usecases/books'
 import { Book } from '@/domain/book'
 
-const makeSut = (): UpdateBook => {
+type sutTypes = {
+  sut: UpdateBook
+  bookRepositoryStub: BookRepositoryStub
+}
+
+const makeSut = (): sutTypes => {
   const bookRepositoryStub = new BookRepositoryStub()
-  return new UpdateBook(bookRepositoryStub)
+  const sut = new UpdateBook(bookRepositoryStub)
+  return {
+    sut,
+    bookRepositoryStub
+  }
 }
 
 describe('UpdateBook', () => {
@@ -19,7 +28,7 @@ describe('UpdateBook', () => {
   })
 
   it('should call book repository with correct parameters', async () => {
-    const sut = makeSut()
+    const { sut } = makeSut()
 
     const fakeBook: Book = {
       id: 'fake_id',
@@ -37,10 +46,8 @@ describe('UpdateBook', () => {
   })
 
   it('should throw BookNotFoundError if id is not found', async () => {
-    const sut = makeSut()
-    jest.spyOn(sut, 'execute').mockReturnValueOnce(
-      Promise.reject(new BookNotFoundError('Book id not found'))
-    )
+    const { sut, bookRepositoryStub } = makeSut()
+    jest.spyOn(bookRepositoryStub, 'listById').mockReturnValueOnce(Promise.resolve(null))
 
     const promise = sut.execute({
       id: 'fake_id',
@@ -56,20 +63,18 @@ describe('UpdateBook', () => {
   })
 
   it('should throw InvalidDataError grade is passed before finished reading', async () => {
-    const sut = makeSut()
-    jest.spyOn(sut, 'execute').mockReturnValueOnce(
-      Promise.reject(new InvalidDataError('You can only grade finished books')
-      )
-    )
-
-    const promise = sut.execute({
+    const { sut, bookRepositoryStub } = makeSut()
+    const fakeBook: Book = {
       id: 'fake_id',
       title: 'Fake Title',
       author: 'Fake Author',
       createdAt: new Date(),
-      grade: 5,
-      status: 'Read'
-    })
+      status: 'Wanna read'
+    }
+
+    jest.spyOn(bookRepositoryStub, 'listById').mockReturnValueOnce(Promise.resolve(fakeBook))
+
+    const promise = sut.execute({ ...fakeBook, grade: 5 })
 
     await expect(promise).rejects.toThrow(InvalidDataError)
   })

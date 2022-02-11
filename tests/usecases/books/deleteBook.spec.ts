@@ -3,9 +3,18 @@ import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
 import { DeleteBook } from '@/usecases/books'
 import { BookNotFoundError } from '@/usecases/error'
 
-const makeSut = (): DeleteBook => {
+type sutTypes = {
+  sut: DeleteBook
+  bookRepositoryStub: BookRepositoryStub
+}
+
+const makeSut = (): sutTypes => {
   const bookRepositoryStub = new BookRepositoryStub()
-  return new DeleteBook(bookRepositoryStub)
+  const sut = new DeleteBook(bookRepositoryStub)
+  return {
+    sut,
+    bookRepositoryStub
+  }
 }
 
 describe('DeleteBook', () => {
@@ -18,16 +27,14 @@ describe('DeleteBook', () => {
   })
 
   it('should call book repository with correct parameters', async () => {
-    const sut = makeSut()
+    const { sut } = makeSut()
 
     expect(await sut.execute('fake_id')).toEqual('Book with id fake_id deleted')
   })
 
   it('should throw BookNotFoundError if id is not found', async () => {
-    const sut = makeSut()
-    jest.spyOn(sut, 'execute').mockReturnValueOnce(
-      Promise.reject(new BookNotFoundError('Book id not found'))
-    )
+    const { sut, bookRepositoryStub } = makeSut()
+    jest.spyOn(bookRepositoryStub, 'listById').mockReturnValueOnce(Promise.resolve(null))
 
     const promise = sut.execute('wrong_id')
 

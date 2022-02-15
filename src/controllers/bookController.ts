@@ -1,9 +1,12 @@
-import { CreateBook } from '@/usecases/books'
+import { CreateBook, ListBooks } from '@/usecases/books'
 import { BookAlreadyExistsError } from '@/usecases/error'
 import { HttpRequest, HttpResponse, HttpStatusCodes } from './types/http'
 
 export class BookController {
-  constructor (private readonly createBook: CreateBook) {}
+  constructor (
+    private readonly createBook: CreateBook,
+    private readonly listBooks: ListBooks
+  ) {}
 
   async create (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
@@ -24,6 +27,22 @@ export class BookController {
         }
       }
 
+      return {
+        httpStatusCode: HttpStatusCodes.serverError.code,
+        body: error.message
+      }
+    }
+  }
+
+  async index (): Promise<HttpResponse> {
+    try {
+      const response = await this.listBooks.execute()
+
+      return {
+        httpStatusCode: HttpStatusCodes.ok.code,
+        body: response
+      }
+    } catch (error) {
       return {
         httpStatusCode: HttpStatusCodes.serverError.code,
         body: error.message

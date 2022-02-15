@@ -10,6 +10,17 @@ export class BookController {
 
   async create (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      const requiredFields = ['title', 'author', 'createdAt', 'status']
+      const isValid = requiredFields.every(field => httpRequest.body[field])
+      if (!isValid) {
+        return {
+          httpStatusCode: HttpStatusCodes.badRequest.code,
+          body: {
+            message: 'Missing fields'
+          }
+        }
+      }
+
       const { body } = httpRequest
       const response = await this.createBook.execute(body)
 

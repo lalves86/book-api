@@ -94,6 +94,22 @@ describe('BookController', () => {
       expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
       expect(httpResponse.body.message).toEqual('Book already exists')
     })
+
+    it('should return a bad request if mandatory fields are not passed', async () => {
+      const { sut } = makeSut()
+
+      const httpRequest = {
+        body: {
+          author: 'Fake Author',
+          createdAt: new Date(),
+          status: 'Read'
+        }
+      }
+      const httpResponse = await sut.create(httpRequest)
+
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
+      expect(httpResponse.body.message).toEqual('Missing fields')
+    })
   })
 
   describe('index', () => {

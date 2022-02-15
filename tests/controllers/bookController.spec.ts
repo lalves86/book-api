@@ -1,6 +1,6 @@
 import Mockdate from 'mockdate'
 import { BookController } from '@/controllers/bookController'
-import { HttpRequest, HttpResponse, HttpStatusCodes } from '@/controllers/types/http'
+import { HttpStatusCodes } from '@/controllers/types/http'
 import { CreateBook, ListBooks } from '@/usecases/books'
 import { BookRepositoryStub } from '@test/usecases/stubs/bookRepositoryStub'
 import { ServerError } from '@/controllers/error/serverError'
@@ -36,7 +36,7 @@ describe('BookController', () => {
   describe('create', () => {
     it('should call CreateBook with correct parameters', async () => {
       const { sut } = makeSut()
-      const httpRequest: HttpRequest = {
+      const httpRequest = {
         body: {
           id: 'fake_id',
           title: 'Fake Title',
@@ -48,7 +48,7 @@ describe('BookController', () => {
         }
       }
 
-      const httpResponse: HttpResponse = await sut.create(httpRequest)
+      const httpResponse = await sut.create(httpRequest)
 
       expect(httpResponse.body).toEqual(httpRequest.body)
       expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.created.code)
@@ -58,7 +58,7 @@ describe('BookController', () => {
       const { sut, createBook } = makeSut()
       jest.spyOn(createBook, 'execute').mockReturnValueOnce(Promise.reject(new ServerError('Internal Server Error')))
 
-      const httpRequest: HttpRequest = {
+      const httpRequest = {
         body: {
           id: 'fake_id',
           title: 'Fake Title',
@@ -69,7 +69,7 @@ describe('BookController', () => {
           status: 'Read'
         }
       }
-      const httpResponse: HttpResponse = await sut.create(httpRequest)
+      const httpResponse = await sut.create(httpRequest)
 
       expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.serverError.code)
       expect(httpResponse.body).toEqual('Internal Server Error')
@@ -81,7 +81,7 @@ describe('BookController', () => {
         new BookAlreadyExistsError('Book already exists')
       ))
 
-      const httpRequest: HttpRequest = {
+      const httpRequest = {
         body: {
           id: 'fake_id',
           title: 'Fake Title',
@@ -92,7 +92,7 @@ describe('BookController', () => {
           status: 'Read'
         }
       }
-      const httpResponse: HttpResponse = await sut.create(httpRequest)
+      const httpResponse = await sut.create(httpRequest)
 
       expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
       expect(httpResponse.body.message).toEqual('Book already exists')

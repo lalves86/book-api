@@ -4,6 +4,7 @@ import { HttpRequest, HttpResponse, HttpStatusCodes } from '@/controllers/types/
 import { CreateBook } from '@/usecases/books'
 import { BookRepositoryStub } from '@test/usecases/stubs/bookRepositoryStub'
 import { ServerError } from '@/controllers/error/serverError'
+import { BookAlreadyExistsError } from '@/usecases/error'
 
 type SutTypes = {
   sut: BookController
@@ -68,5 +69,28 @@ describe('BookController', () => {
 
     expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.serverError.code)
     expect(httpResponse.body).toEqual('Internal Server Error')
+  })
+
+  it('should return a bad request if title already exists', async () => {
+    const { sut, createBook } = makeSut()
+    jest.spyOn(createBook, 'execute').mockReturnValueOnce(Promise.reject(
+      new BookAlreadyExistsError('Book already exists')
+    ))
+
+    const httpRequest: HttpRequest = {
+      body: {
+        id: 'fake_id',
+        title: 'Fake Title',
+        author: 'Fake Author',
+        createdAt: new Date(),
+        finishedAt: new Date(),
+        grade: 5,
+        status: 'Read'
+      }
+    }
+    const httpResponse: HttpResponse = await sut.create(httpRequest)
+
+    expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
+    expect(httpResponse.body.message).toEqual('Book already exists')
   })
 })

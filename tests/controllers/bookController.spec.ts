@@ -38,7 +38,6 @@ describe('BookController', () => {
       const { sut } = makeSut()
       const httpRequest = {
         body: {
-          id: 'fake_id',
           title: 'Fake Title',
           author: 'Fake Author',
           createdAt: new Date(),
@@ -50,7 +49,7 @@ describe('BookController', () => {
 
       const httpResponse = await sut.create(httpRequest)
 
-      expect(httpResponse.body).toEqual(httpRequest.body)
+      expect(httpResponse.body.title).toEqual(httpRequest.body.title)
       expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.created.code)
     })
 
@@ -60,7 +59,6 @@ describe('BookController', () => {
 
       const httpRequest = {
         body: {
-          id: 'fake_id',
           title: 'Fake Title',
           author: 'Fake Author',
           createdAt: new Date(),
@@ -83,7 +81,6 @@ describe('BookController', () => {
 
       const httpRequest = {
         body: {
-          id: 'fake_id',
           title: 'Fake Title',
           author: 'Fake Author',
           createdAt: new Date(),

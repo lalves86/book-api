@@ -16,6 +16,9 @@ export class UpdateBook implements UseCase<Book> {
     if ((book.status !== 'Read' || data.status !== 'Read') && data.grade) {
       throw new InvalidDataError('You can only grade finished books')
     }
+    if (data.status === 'Read' && !data.finishedAt) {
+      throw new InvalidDataError('Date is mandatory when status is Read')
+    }
     await this.bookRepository.update(data)
     return book
   }

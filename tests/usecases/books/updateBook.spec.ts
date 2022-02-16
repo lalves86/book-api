@@ -78,4 +78,21 @@ describe('UpdateBook', () => {
 
     await expect(promise).rejects.toThrow(InvalidDataError)
   })
+
+  it('should throw InvalidDataError if status is Read without finishedAt date', async () => {
+    const { sut, bookRepositoryStub } = makeSut()
+    const fakeBook: Book = {
+      id: 'fake_id',
+      title: 'Fake Title',
+      author: 'Fake Author',
+      createdAt: new Date(),
+      status: 'Read'
+    }
+
+    jest.spyOn(bookRepositoryStub, 'listById').mockReturnValueOnce(Promise.resolve(fakeBook))
+
+    const promise = sut.execute(fakeBook)
+
+    await expect(promise).rejects.toThrow(InvalidDataError)
+  })
 })

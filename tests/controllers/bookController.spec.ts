@@ -1,26 +1,29 @@
 import Mockdate from 'mockdate'
 import { BookController } from '@/controllers/bookController'
 import { HttpStatusCodes } from '@/controllers/types/http'
-import { CreateBook, ListBooks } from '@/usecases/books'
+import { CreateBook, ListBookById, ListBooks } from '@/usecases/books'
 import { BookRepositoryStub } from '@test/usecases/stubs/bookRepositoryStub'
 import { ServerError } from '@/controllers/error/serverError'
-import { BookAlreadyExistsError } from '@/usecases/error'
+import { BookAlreadyExistsError, BookNotFoundError } from '@/usecases/error'
 
 type SutTypes = {
   sut: BookController
   createBook: CreateBook
   listBooks: ListBooks
+  listBookById: ListBookById
 }
 
 const makeSut = (): SutTypes => {
   const bookRepository = new BookRepositoryStub()
   const createBook: CreateBook = new CreateBook(bookRepository)
   const listBooks: ListBooks = new ListBooks(bookRepository)
-  const sut = new BookController(createBook, listBooks)
+  const listBookById: ListBookById = new ListBookById(bookRepository)
+  const sut = new BookController(createBook, listBooks, listBookById)
   return {
     sut,
     createBook,
-    listBooks
+    listBooks,
+    listBookById
   }
 }
 
@@ -146,6 +149,46 @@ describe('BookController', () => {
 
       expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.serverError.code)
       expect(httpResponse.body).toEqual('Internal Server Error')
+    })
+  })
+
+  describe('show', () => {
+    it('should call ListBookById with correct parameters', async () => {
+      const { sut } = makeSut()
+      const httpRequest = {
+        params: {
+          id: 'fake_id'
+        }
+      }
+      const httpResponse = await sut.show(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.ok.code)
+      expect(httpResponse.body.title).toEqual('Fake Title')
+    })
+
+    it('should throw server error if usecase throws', async () => {
+      const { sut, listBookById } = makeSut()
+      jest.spyOn(listBookById, 'execute').mockReturnValueOnce(Promise.reject(new ServerError('Internal Server Error')))
+      const httpRequest = {
+        params: {
+          id: 'fake_id'
+        }
+      }
+      const httpResponse = await sut.show(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.serverError.code)
+      expect(httpResponse.body).toEqual('Internal Server Error')
+    })
+
+    it('should return a bad request if book id is not found', async () => {
+      const { sut, listBookById } = makeSut()
+      jest.spyOn(listBookById, 'execute').mockReturnValueOnce(Promise.reject(new BookNotFoundError('Book id not found')))
+      const httpRequest = {
+        params: {
+          id: 'fake_id'
+        }
+      }
+      const httpResponse = await sut.show(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
+      expect(httpResponse.body.message).toEqual('Book id not found')
     })
   })
 })

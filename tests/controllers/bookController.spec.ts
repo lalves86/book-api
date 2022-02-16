@@ -290,5 +290,25 @@ describe('BookController', () => {
       expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
       expect(httpResponse.body.message).toEqual('You can only grade finished books')
     })
+
+    it('should return a bad request when trying to update book status without a finishedAt date', async () => {
+      const { sut, updateBook } = makeSut()
+      jest.spyOn(updateBook, 'execute').mockReturnValueOnce(Promise.reject(new InvalidDataError('Date is mandatory when status is Read')))
+      const httpRequest = {
+        params: {
+          id: 'fake_id'
+        },
+        body: {
+          title: 'Fake Title',
+          author: 'Fake Author',
+          createdAt: new Date(),
+          status: 'Read',
+          grade: 5
+        }
+      }
+      const httpResponse = await sut.update(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
+      expect(httpResponse.body.message).toEqual('Date is mandatory when status is Read')
+    })
   })
 })

@@ -1,12 +1,13 @@
-import { CreateBook, ListBookById, ListBooks } from '@/usecases/books'
-import { BookAlreadyExistsError, BookNotFoundError } from '@/usecases/error'
+import { CreateBook, ListBookById, ListBooks, UpdateBook } from '@/usecases/books'
+import { BookAlreadyExistsError, BookNotFoundError, InvalidDataError } from '@/usecases/error'
 import { HttpRequest, HttpResponse, HttpStatusCodes } from './types/http'
 
 export class BookController {
   constructor (
     private readonly createBook: CreateBook,
     private readonly listBooks: ListBooks,
-    private readonly listBookById: ListBookById
+    private readonly listBookById: ListBookById,
+    private readonly updateBook: UpdateBook
   ) {}
 
   async create (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -73,6 +74,44 @@ export class BookController {
       }
     } catch (error) {
       if (error instanceof BookNotFoundError) {
+        return {
+          httpStatusCode: HttpStatusCodes.badRequest.code,
+          body: {
+            message: error.message
+          }
+        }
+      }
+
+      return {
+        httpStatusCode: HttpStatusCodes.serverError.code,
+        body: error.message
+      }
+    }
+  }
+
+  async update (httpRequest: HttpRequest): Promise<HttpResponse> {
+    try {
+      const { id } = httpRequest.params
+      const requiredFields = ['title', 'author', 'createdAt', 'status']
+      const isValid = requiredFields.every(field => httpRequest.body[field])
+      if (!isValid) {
+        return {
+          httpStatusCode: HttpStatusCodes.badRequest.code,
+          body: {
+            message: 'Missing fields'
+          }
+        }
+      }
+
+      const { body } = httpRequest
+      const response = await this.updateBook.execute({ id, ...body })
+
+      return {
+        httpStatusCode: HttpStatusCodes.ok.code,
+        body: response
+      }
+    } catch (error) {
+      if (error instanceof BookNotFoundError || error instanceof InvalidDataError) {
         return {
           httpStatusCode: HttpStatusCodes.badRequest.code,
           body: {

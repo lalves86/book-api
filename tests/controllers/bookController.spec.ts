@@ -1,16 +1,17 @@
 import Mockdate from 'mockdate'
 import { BookController } from '@/controllers/bookController'
 import { HttpStatusCodes } from '@/controllers/types/http'
-import { CreateBook, ListBookById, ListBooks } from '@/usecases/books'
+import { CreateBook, ListBookById, ListBooks, UpdateBook } from '@/usecases/books'
 import { BookRepositoryStub } from '@test/usecases/stubs/bookRepositoryStub'
 import { ServerError } from '@/controllers/error/serverError'
-import { BookAlreadyExistsError, BookNotFoundError } from '@/usecases/error'
+import { BookAlreadyExistsError, BookNotFoundError, InvalidDataError } from '@/usecases/error'
 
 type SutTypes = {
   sut: BookController
   createBook: CreateBook
   listBooks: ListBooks
   listBookById: ListBookById
+  updateBook: UpdateBook
 }
 
 const makeSut = (): SutTypes => {
@@ -18,12 +19,14 @@ const makeSut = (): SutTypes => {
   const createBook: CreateBook = new CreateBook(bookRepository)
   const listBooks: ListBooks = new ListBooks(bookRepository)
   const listBookById: ListBookById = new ListBookById(bookRepository)
-  const sut = new BookController(createBook, listBooks, listBookById)
+  const updateBook: UpdateBook = new UpdateBook(bookRepository)
+  const sut = new BookController(createBook, listBooks, listBookById, updateBook)
   return {
     sut,
     createBook,
     listBooks,
-    listBookById
+    listBookById,
+    updateBook
   }
 }
 
@@ -189,6 +192,103 @@ describe('BookController', () => {
       const httpResponse = await sut.show(httpRequest)
       expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
       expect(httpResponse.body.message).toEqual('Book id not found')
+    })
+  })
+
+  describe('update', () => {
+    it('should call updateBook with correct parameters', async () => {
+      const { sut } = makeSut()
+      const httpRequest = {
+        params: {
+          id: 'fake_id'
+        },
+        body: {
+          title: 'Fake Title',
+          author: 'Fake Author',
+          createdAt: new Date(),
+          finishedAt: new Date(),
+          grade: 5,
+          status: 'Read'
+        }
+      }
+      const httpResponse = await sut.show(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.ok.code)
+      expect(httpResponse.body.title).toEqual('Fake Title')
+    })
+
+    it('should throw server error if usecase throws', async () => {
+      const { sut, updateBook } = makeSut()
+      jest.spyOn(updateBook, 'execute').mockReturnValueOnce(Promise.reject(new ServerError('Internal Server Error')))
+      const httpRequest = {
+        params: {
+          id: 'fake_id'
+        },
+        body: {
+          title: 'Fake Title',
+          author: 'Fake Author',
+          createdAt: new Date(),
+          status: 'Reading'
+        }
+      }
+      const httpResponse = await sut.update(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.serverError.code)
+      expect(httpResponse.body).toEqual('Internal Server Error')
+    })
+
+    it('should return a bad request if book id is not found', async () => {
+      const { sut, updateBook } = makeSut()
+      jest.spyOn(updateBook, 'execute').mockReturnValueOnce(Promise.reject(new BookNotFoundError('Book id not found')))
+      const httpRequest = {
+        params: {
+          id: 'fake_id'
+        },
+        body: {
+          title: 'Fake Title',
+          author: 'Fake Author',
+          createdAt: new Date(),
+          status: 'Reading'
+        }
+      }
+      const httpResponse = await sut.update(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
+      expect(httpResponse.body.message).toEqual('Book id not found')
+    })
+
+    it('should return a bad request if a mandatory param is missing', async () => {
+      const { sut } = makeSut()
+      const httpRequest = {
+        params: {
+          id: 'fake_id'
+        },
+        body: {
+          author: 'Fake Author',
+          createdAt: new Date(),
+          status: 'Reading'
+        }
+      }
+      const httpResponse = await sut.update(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
+      expect(httpResponse.body.message).toEqual('Missing fields')
+    })
+
+    it('should return a bad request when trying to update params not allowed', async () => {
+      const { sut, updateBook } = makeSut()
+      jest.spyOn(updateBook, 'execute').mockReturnValueOnce(Promise.reject(new InvalidDataError('You can only grade finished books')))
+      const httpRequest = {
+        params: {
+          id: 'fake_id'
+        },
+        body: {
+          title: 'Fake Title',
+          author: 'Fake Author',
+          createdAt: new Date(),
+          status: 'Reading',
+          grade: 5
+        }
+      }
+      const httpResponse = await sut.update(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
+      expect(httpResponse.body.message).toEqual('You can only grade finished books')
     })
   })
 })

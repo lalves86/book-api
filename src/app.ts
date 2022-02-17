@@ -1,8 +1,8 @@
 import express, { json } from 'express'
-import { hello } from './routes'
+import router from './main/routes'
 
 const app = express()
-app.use(hello)
 app.use(json())
+app.use(router)
 
 export default app

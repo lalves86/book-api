@@ -1,5 +1,5 @@
 import { Book } from '@/domain/book'
-import { BookRepository } from '@/repositories/ports/bookRepository'
+import { BookRepository } from '@/infra/repositories/ports/bookRepository'
 
 export class BookRepositoryStub implements BookRepository {
   async create (book: Book): Promise<Book> {

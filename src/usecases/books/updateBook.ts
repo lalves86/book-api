@@ -1,5 +1,5 @@
 import { Book } from '@/domain/book'
-import { BookRepository } from '@/repositories/ports/bookRepository'
+import { BookRepository } from '@/infra/repositories/ports/bookRepository'
 import { BookNotFoundError, InvalidDataError } from '../error'
 import { UseCase } from '../ports/usecase'
 

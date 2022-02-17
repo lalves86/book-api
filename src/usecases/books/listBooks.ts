@@ -1,5 +1,5 @@
 import { Book } from '@/domain/book'
-import { BookRepository } from '@/repositories/ports/bookRepository'
+import { BookRepository } from '@/infra/repositories/ports/bookRepository'
 import { UseCase } from '../ports/usecase'
 
 export class ListBooks implements UseCase<Book[]> {

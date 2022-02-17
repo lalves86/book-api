@@ -40,7 +40,6 @@ export class BookController {
           }
         }
       }
-
       return {
         httpStatusCode: HttpStatusCodes.serverError.code,
         body: error.message

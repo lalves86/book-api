@@ -1,7 +1,7 @@
 import Mockdate from 'mockdate'
 import { BookController } from '@/controllers/bookController'
 import { HttpStatusCodes } from '@/controllers/types/http'
-import { CreateBook, ListBookById, ListBooks, UpdateBook } from '@/usecases/books'
+import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook } from '@/usecases/books'
 import { BookRepositoryStub } from '@test/usecases/stubs/bookRepositoryStub'
 import { ServerError } from '@/controllers/error/serverError'
 import { BookAlreadyExistsError, BookNotFoundError, InvalidDataError } from '@/usecases/error'
@@ -11,7 +11,8 @@ type SutTypes = {
   createBook: CreateBook
   listBooks: ListBooks
   listBookById: ListBookById
-  updateBook: UpdateBook
+  updateBook: UpdateBook,
+  deleteBook: DeleteBook
 }
 
 const makeSut = (): SutTypes => {
@@ -20,13 +21,15 @@ const makeSut = (): SutTypes => {
   const listBooks: ListBooks = new ListBooks(bookRepository)
   const listBookById: ListBookById = new ListBookById(bookRepository)
   const updateBook: UpdateBook = new UpdateBook(bookRepository)
-  const sut = new BookController(createBook, listBooks, listBookById, updateBook)
+  const deleteBook: DeleteBook = new DeleteBook(bookRepository)
+  const sut = new BookController(createBook, listBooks, listBookById, updateBook, deleteBook)
   return {
     sut,
     createBook,
     listBooks,
     listBookById,
-    updateBook
+    updateBook,
+    deleteBook
   }
 }
 
@@ -309,6 +312,58 @@ describe('BookController', () => {
       const httpResponse = await sut.update(httpRequest)
       expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
       expect(httpResponse.body.message).toEqual('Date is mandatory when status is Read')
+    })
+  })
+
+  describe('delete', () => {
+    it('should call deleteBook with correct params', async () => {
+      const { sut } = makeSut()
+      const httpRequest = {
+        params: {
+          id: 'fake_id'
+        }
+      }
+      const httpResponse = await sut.delete(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(200)
+      expect(httpResponse.body).toEqual('Book with id fake_id deleted')
+    })
+
+    it('should throw server error if usecase throws', async () => {
+      const { sut, deleteBook } = makeSut()
+      jest.spyOn(deleteBook, 'execute').mockReturnValueOnce(Promise.reject(new ServerError('Internal Server Error')))
+      const httpRequest = {
+        params: {
+          id: 'fake_id'
+        },
+        body: {
+          title: 'Fake Title',
+          author: 'Fake Author',
+          createdAt: new Date(),
+          status: 'Reading'
+        }
+      }
+      const httpResponse = await sut.delete(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.serverError.code)
+      expect(httpResponse.body).toEqual('Internal Server Error')
+    })
+
+    it('should return a bad request if book id is not found', async () => {
+      const { sut, deleteBook } = makeSut()
+      jest.spyOn(deleteBook, 'execute').mockReturnValueOnce(Promise.reject(new BookNotFoundError('Book id not found')))
+      const httpRequest = {
+        params: {
+          id: 'fake_id'
+        },
+        body: {
+          title: 'Fake Title',
+          author: 'Fake Author',
+          createdAt: new Date(),
+          status: 'Reading'
+        }
+      }
+      const httpResponse = await sut.delete(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
+      expect(httpResponse.body.message).toEqual('Book id not found')
     })
   })
 })

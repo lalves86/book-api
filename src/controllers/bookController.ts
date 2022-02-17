@@ -1,4 +1,4 @@
-import { CreateBook, ListBookById, ListBooks, UpdateBook } from '@/usecases/books'
+import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook } from '@/usecases/books'
 import { BookAlreadyExistsError, BookNotFoundError, InvalidDataError } from '@/usecases/error'
 import { HttpRequest, HttpResponse, HttpStatusCodes } from './types/http'
 
@@ -7,7 +7,8 @@ export class BookController {
     private readonly createBook: CreateBook,
     private readonly listBooks: ListBooks,
     private readonly listBookById: ListBookById,
-    private readonly updateBook: UpdateBook
+    private readonly updateBook: UpdateBook,
+    private readonly deleteBook: DeleteBook
   ) {}
 
   async create (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -112,6 +113,32 @@ export class BookController {
       }
     } catch (error) {
       if (error instanceof BookNotFoundError || error instanceof InvalidDataError) {
+        return {
+          httpStatusCode: HttpStatusCodes.badRequest.code,
+          body: {
+            message: error.message
+          }
+        }
+      }
+
+      return {
+        httpStatusCode: HttpStatusCodes.serverError.code,
+        body: error.message
+      }
+    }
+  }
+
+  async delete (httpRequest: HttpRequest): Promise<HttpResponse> {
+    try {
+      const { id } = httpRequest.params
+      const response = await this.deleteBook.execute(id)
+
+      return {
+        httpStatusCode: HttpStatusCodes.ok.code,
+        body: response
+      }
+    } catch (error) {
+      if (error instanceof BookNotFoundError) {
         return {
           httpStatusCode: HttpStatusCodes.badRequest.code,
           body: {

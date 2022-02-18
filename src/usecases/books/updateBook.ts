@@ -1,5 +1,6 @@
 import { Book } from '@/domain/book'
 import { BookRepository } from '@/infra/repositories/ports/bookRepository'
+import { UpdateBookDto } from '../dtos/updateBookDto'
 import { BookNotFoundError, InvalidDataError } from '../error'
 import { UseCase } from '../ports/usecase'
 
@@ -8,7 +9,7 @@ export class UpdateBook implements UseCase<Book> {
     private readonly bookRepository: BookRepository
   ) {}
 
-  async execute (data: Book): Promise<Book> {
+  async execute (data: UpdateBookDto): Promise<Book> {
     const book = await this.bookRepository.listById(data.id)
     if (!book) {
       throw new BookNotFoundError('Book id not found')

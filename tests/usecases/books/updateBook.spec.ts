@@ -2,7 +2,7 @@ import Mockdate from 'mockdate'
 import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
 import { BookNotFoundError, InvalidDataError } from '@/usecases/error'
 import { UpdateBook } from '@/usecases/books'
-import { Book } from '@/domain/book'
+import { UpdateBookDto } from '@/usecases/dtos/updateBookDto'
 
 type sutTypes = {
   sut: UpdateBook
@@ -30,11 +30,10 @@ describe('UpdateBook', () => {
   it('should call book repository with correct parameters', async () => {
     const { sut } = makeSut()
 
-    const fakeBook: Book = {
+    const fakeBook: UpdateBookDto = {
       id: 'fake_id',
       title: 'Fake Title',
       author: 'Fake Author',
-      createdAt: new Date(),
       finishedAt: new Date(),
       grade: 5,
       status: 'Read'
@@ -42,7 +41,10 @@ describe('UpdateBook', () => {
 
     const result = await sut.execute(fakeBook)
 
-    expect(result).toEqual(fakeBook)
+    expect(result.id).toEqual(fakeBook.id)
+    expect(result.title).toEqual(fakeBook.title)
+    expect(result.author).toEqual(fakeBook.author)
+    expect(result.createdAt).toBeDefined()
   })
 
   it('should throw BookNotFoundError if id is not found', async () => {
@@ -53,7 +55,6 @@ describe('UpdateBook', () => {
       id: 'fake_id',
       title: 'Fake Title',
       author: 'Fake Author',
-      createdAt: new Date(),
       finishedAt: new Date(),
       grade: 5,
       status: 'Read'
@@ -64,15 +65,22 @@ describe('UpdateBook', () => {
 
   it('should throw InvalidDataError grade is passed before finished reading', async () => {
     const { sut, bookRepositoryStub } = makeSut()
-    const fakeBook: Book = {
+    const fakeBook: UpdateBookDto = {
+      id: 'fake_id',
+      title: 'Fake Title',
+      author: 'Fake Author',
+      status: 'Wanna read'
+    }
+
+    jest.spyOn(bookRepositoryStub, 'listById').mockReturnValueOnce(Promise.resolve({
       id: 'fake_id',
       title: 'Fake Title',
       author: 'Fake Author',
       createdAt: new Date(),
+      finishedAt: null,
+      grade: null,
       status: 'Wanna read'
-    }
-
-    jest.spyOn(bookRepositoryStub, 'listById').mockReturnValueOnce(Promise.resolve(fakeBook))
+    }))
 
     const promise = sut.execute({ ...fakeBook, grade: 5 })
 
@@ -81,15 +89,22 @@ describe('UpdateBook', () => {
 
   it('should throw InvalidDataError if status is Read without finishedAt date', async () => {
     const { sut, bookRepositoryStub } = makeSut()
-    const fakeBook: Book = {
+    const fakeBook: UpdateBookDto = {
+      id: 'fake_id',
+      title: 'Fake Title',
+      author: 'Fake Author',
+      status: 'Read'
+    }
+
+    jest.spyOn(bookRepositoryStub, 'listById').mockReturnValueOnce(Promise.resolve({
       id: 'fake_id',
       title: 'Fake Title',
       author: 'Fake Author',
       createdAt: new Date(),
-      status: 'Read'
-    }
-
-    jest.spyOn(bookRepositoryStub, 'listById').mockReturnValueOnce(Promise.resolve(fakeBook))
+      finishedAt: null,
+      grade: null,
+      status: 'Wanna read'
+    }))
 
     const promise = sut.execute(fakeBook)
 

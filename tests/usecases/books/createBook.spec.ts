@@ -1,7 +1,7 @@
 import Mockdate from 'mockdate'
 import { CreateBook } from '@/usecases/books'
 import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
-import { BookAlreadyExistsError } from '@/usecases/error'
+import { BookAlreadyExistsError, InvalidDataError } from '@/usecases/error'
 import { CreateBookDto } from '@/usecases/dtos/createBookDto'
 
 type sutTypes = {
@@ -66,5 +66,31 @@ describe('CreateBook', () => {
     const promise = sut.execute(fakeBook)
 
     await expect(promise).rejects.toThrow(BookAlreadyExistsError)
+  })
+
+  it('should not allow to grade unfinished books', async () => {
+    const { sut } = makeSut()
+    const fakeBook: CreateBookDto = {
+      title: 'Fake Title',
+      author: 'Fake Author',
+      grade: 5,
+      status: 'Wanna read'
+    }
+    const promise = sut.execute(fakeBook)
+
+    await expect(promise).rejects.toThrow(InvalidDataError)
+  })
+
+  it('should not allow change status to Read without a finishedAt date', async () => {
+    const { sut } = makeSut()
+    const fakeBook: CreateBookDto = {
+      title: 'Fake Title',
+      author: 'Fake Author',
+      grade: 5,
+      status: 'Read'
+    }
+    const promise = sut.execute(fakeBook)
+
+    await expect(promise).rejects.toThrow(InvalidDataError)
   })
 })

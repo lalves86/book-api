@@ -214,7 +214,7 @@ describe('BookController', () => {
           status: 'Read'
         }
       }
-      const httpResponse = await sut.show(httpRequest)
+      const httpResponse = await sut.update(httpRequest)
       expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.ok.code)
       expect(httpResponse.body.title).toEqual('Fake Title')
     })

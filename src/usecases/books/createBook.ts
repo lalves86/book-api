@@ -20,6 +20,6 @@ export class CreateBook implements UseCase<Book> {
     if (book.status === 'Read' && !book.finishedAt) {
       throw new InvalidDataError('Date is mandatory when status is Read')
     }
-    return await this.bookRepository.create(bookExists)
+    return await this.bookRepository.create(book)
   }
 }

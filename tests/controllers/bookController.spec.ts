@@ -208,7 +208,6 @@ describe('BookController', () => {
         body: {
           title: 'Fake Title',
           author: 'Fake Author',
-          createdAt: new Date(),
           finishedAt: new Date(),
           grade: 5,
           status: 'Read'
@@ -229,7 +228,6 @@ describe('BookController', () => {
         body: {
           title: 'Fake Title',
           author: 'Fake Author',
-          createdAt: new Date(),
           status: 'Reading'
         }
       }
@@ -248,7 +246,6 @@ describe('BookController', () => {
         body: {
           title: 'Fake Title',
           author: 'Fake Author',
-          createdAt: new Date(),
           status: 'Reading'
         }
       }
@@ -265,7 +262,6 @@ describe('BookController', () => {
         },
         body: {
           author: 'Fake Author',
-          createdAt: new Date(),
           status: 'Reading'
         }
       }
@@ -284,7 +280,6 @@ describe('BookController', () => {
         body: {
           title: 'Fake Title',
           author: 'Fake Author',
-          createdAt: new Date(),
           status: 'Reading',
           grade: 5
         }
@@ -304,7 +299,6 @@ describe('BookController', () => {
         body: {
           title: 'Fake Title',
           author: 'Fake Author',
-          createdAt: new Date(),
           status: 'Read',
           grade: 5
         }

@@ -32,7 +32,7 @@ export class BookController {
         body: response
       }
     } catch (error) {
-      if (error instanceof BookAlreadyExistsError) {
+      if (error instanceof BookAlreadyExistsError || error instanceof InvalidDataError) {
         return {
           httpStatusCode: HttpStatusCodes.badRequest.code,
           body: {

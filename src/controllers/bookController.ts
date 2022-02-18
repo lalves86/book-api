@@ -13,7 +13,7 @@ export class BookController {
 
   async create (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const requiredFields = ['title', 'author', 'createdAt', 'status']
+      const requiredFields = ['title', 'author', 'status']
       const isValid = requiredFields.every(field => httpRequest.body[field])
       if (!isValid) {
         return {
@@ -92,7 +92,7 @@ export class BookController {
   async update (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { id } = httpRequest.params
-      const requiredFields = ['title', 'author', 'createdAt', 'status']
+      const requiredFields = ['title', 'author', 'status']
       const isValid = requiredFields.every(field => httpRequest.body[field])
       if (!isValid) {
         return {

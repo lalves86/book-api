@@ -1,8 +1,9 @@
 import { Book } from '@/domain/book'
 import { BookRepository } from '@/infra/repositories/ports/bookRepository'
+import { CreateBookDto } from '@/usecases/dtos/createBookDto'
 
 export class BookRepositoryStub implements BookRepository {
-  async create (book: Book): Promise<Book> {
+  async create (book: CreateBookDto): Promise<Book> {
     return Promise.resolve({
       id: 'fake_id',
       title: 'Fake Title',

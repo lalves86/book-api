@@ -1,5 +1,5 @@
 import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook } from '@/usecases/books'
-import { BookAlreadyExistsError, BookNotFoundError, InvalidDataError } from '@/usecases/error'
+import { BookAlreadyExistsError, BookNotFoundError, InvalidDataError } from '@/usecases/error/books'
 import { HttpRequest, HttpResponse, HttpStatusCodes } from './types/http'
 
 export class BookController {

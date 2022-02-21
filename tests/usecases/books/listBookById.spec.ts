@@ -1,7 +1,7 @@
 import Mockdate from 'mockdate'
 import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
 import { ListBookById } from '@/usecases/books'
-import { BookNotFoundError } from '@/usecases/error'
+import { BookNotFoundError } from '@/usecases/error/books'
 
 type sutTypes = {
   sut: ListBookById

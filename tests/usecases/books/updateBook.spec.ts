@@ -1,8 +1,8 @@
 import Mockdate from 'mockdate'
 import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
-import { BookNotFoundError, InvalidDataError } from '@/usecases/error'
+import { BookNotFoundError, InvalidDataError } from '@/usecases/error/books'
 import { UpdateBook } from '@/usecases/books'
-import { UpdateBookDto } from '@/usecases/dtos/updateBookDto'
+import { UpdateBookDto } from '@/usecases/dtos/books'
 
 type sutTypes = {
   sut: UpdateBook

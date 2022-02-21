@@ -1,6 +1,6 @@
 import { Book } from '@/domain/book'
 import { BookRepository } from '@/infra/repositories/ports/bookRepository'
-import { BookNotFoundError } from '../error'
+import { BookNotFoundError } from '../error/books'
 import { UseCase } from '../ports/usecase'
 
 export class DeleteBook implements UseCase<Book> {

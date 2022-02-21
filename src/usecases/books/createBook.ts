@@ -1,7 +1,7 @@
 import { Book } from '@/domain/book'
 import { BookRepository } from '@/infra/repositories/ports/bookRepository'
-import { CreateBookDto } from '../dtos/createBookDto'
-import { BookAlreadyExistsError, InvalidDataError } from '../error'
+import { CreateBookDto } from '../dtos/books/createBookDto'
+import { BookAlreadyExistsError, InvalidDataError } from '../error/books'
 import { UseCase } from '../ports/usecase'
 
 export class CreateBook implements UseCase<Book> {

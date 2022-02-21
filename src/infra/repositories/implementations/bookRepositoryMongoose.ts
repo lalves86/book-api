@@ -1,6 +1,5 @@
 import { Book } from '@/domain/book'
-import { CreateBookDto } from '@/usecases/dtos/createBookDto'
-import { UpdateBookDto } from '@/usecases/dtos/updateBookDto'
+import { CreateBookDto, UpdateBookDto } from '@/usecases/dtos/books'
 import { BookRepository } from '../ports/bookRepository'
 import { bookModel } from '@/infra/databases/mongodb/model/bookModel'
 

@@ -1,6 +1,5 @@
 import { Book } from '@/domain/book'
-import { CreateBookDto } from '@/usecases/dtos/createBookDto'
-import { UpdateBookDto } from '@/usecases/dtos/updateBookDto'
+import { CreateBookDto, UpdateBookDto } from '@/usecases/dtos/books'
 
 export interface BookRepository {
   create (book: CreateBookDto): Promise<Book>

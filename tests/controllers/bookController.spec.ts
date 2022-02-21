@@ -4,7 +4,7 @@ import { HttpStatusCodes } from '@/controllers/types/http'
 import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook } from '@/usecases/books'
 import { BookRepositoryStub } from '@test/usecases/stubs/bookRepositoryStub'
 import { ServerError } from '@/controllers/error/serverError'
-import { BookAlreadyExistsError, BookNotFoundError, InvalidDataError } from '@/usecases/error'
+import { BookAlreadyExistsError, BookNotFoundError, InvalidDataError } from '@/usecases/error/books'
 
 type SutTypes = {
   sut: BookController

@@ -13,4 +13,8 @@ export class UserRepositoryStub implements UserRepository {
       updatedAt: new Date()
     })
   }
+
+  async getByEmail (email: string): Promise<User> {
+    return Promise.resolve(null)
+  }
 }

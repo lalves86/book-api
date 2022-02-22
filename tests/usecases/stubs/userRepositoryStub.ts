@@ -1,5 +1,5 @@
 import { User } from '@/domain/user'
-import { UserRepository } from '@/infra/repositories/ports/userRepository'
+import { UserRepository } from '@/usecases/ports/repositories'
 import { CreateUserDto } from '@/usecases/dtos/users'
 
 export class UserRepositoryStub implements UserRepository {

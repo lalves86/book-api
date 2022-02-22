@@ -1,5 +1,5 @@
 import { User } from '@/domain/user'
-import { UserRepository } from '@/infra/repositories/ports/userRepository'
+import { UserRepository } from '@/usecases/ports/repositories'
 import { CreateUserDto } from '../dtos/users'
 import { UserAlreadyExistsError } from '../error/users'
 import { UseCase } from '../ports/usecase'

@@ -1,6 +1,6 @@
 import { Book } from '@/domain/book'
 import { CreateBookDto, UpdateBookDto } from '@/usecases/dtos/books'
-import { BookRepository } from '../ports/bookRepository'
+import { BookRepository } from '@/usecases/ports/repositories/bookRepository'
 import { bookModel } from '@/infra/databases/mongodb/model/bookModel'
 
 export class BookRepositoryMongoose implements BookRepository {

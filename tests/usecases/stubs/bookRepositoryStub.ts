@@ -1,5 +1,5 @@
 import { Book } from '@/domain/book'
-import { BookRepository } from '@/infra/repositories/ports/bookRepository'
+import { BookRepository } from '@/usecases/ports/repositories/bookRepository'
 import { CreateBookDto } from '@/usecases/dtos/books'
 
 export class BookRepositoryStub implements BookRepository {

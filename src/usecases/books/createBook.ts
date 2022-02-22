@@ -1,5 +1,5 @@
 import { Book } from '@/domain/book'
-import { BookRepository } from '@/infra/repositories/ports/bookRepository'
+import { BookRepository } from '@/usecases/ports/repositories/bookRepository'
 import { CreateBookDto } from '../dtos/books/createBookDto'
 import { BookAlreadyExistsError, InvalidDataError } from '../error/books'
 import { UseCase } from '../ports/usecase'

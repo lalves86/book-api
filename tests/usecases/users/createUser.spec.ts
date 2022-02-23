@@ -1,20 +1,35 @@
 import { CreateUserDto } from '@/usecases/dtos/users'
 import { UserAlreadyExistsError } from '@/usecases/error/users/userAlreadyExistsError'
+import { Crypto } from '@/usecases/ports/criptography'
 import { CreateUser } from '@/usecases/users/createUser'
 import Mockdate from 'mockdate'
 import { UserRepositoryStub } from '../stubs/userRepositoryStub'
 
+class CryptoStub implements Crypto {
+  async hash (plaintext: string): Promise<string> {
+    return plaintext + '-hash'
+  }
+
+  async compare (plaintext: string, hash: string): Promise<boolean> {
+    const decodedHash = hash.replace('-hash', '')
+    return plaintext === decodedHash
+  }
+}
+
 type sutTypes = {
   sut: CreateUser
   userRepositoryStub: UserRepositoryStub
+  cryptoStub: CryptoStub
 }
 
 const makeSut = (): sutTypes => {
   const userRepositoryStub = new UserRepositoryStub()
-  const sut = new CreateUser(userRepositoryStub)
+  const cryptoStub = new CryptoStub()
+  const sut = new CreateUser(userRepositoryStub, cryptoStub)
   return {
     sut,
-    userRepositoryStub
+    userRepositoryStub,
+    cryptoStub
   }
 }
 
@@ -40,6 +55,7 @@ describe('CreateUser', () => {
     expect(result.id).toBeDefined()
     expect(result.username).toBe(fakeUser.username)
     expect(result.email).toBe(fakeUser.email)
+    expect(result.password).toBe(fakeUser.password)
     expect(result.createdAt).toBeDefined()
   })
 

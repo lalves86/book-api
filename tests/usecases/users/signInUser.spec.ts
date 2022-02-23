@@ -1,5 +1,6 @@
 import { InvalidCredentialsError } from '@/usecases/error/users'
 import { SignInUser } from '@/usecases/users/signInUser'
+import { AccessTokenStub } from '../stubs/accessTokenStub'
 import { CryptoStub } from '../stubs/cryptoStub'
 import { UserRepositoryStub } from '../stubs/userRepositoryStub'
 
@@ -7,16 +8,19 @@ type sutTypes = {
   sut: SignInUser
   userRepositoryStub: UserRepositoryStub
   cryptoStub: CryptoStub
+  accessTokenStub: AccessTokenStub
 }
 
 const makeSut = (): sutTypes => {
   const userRepositoryStub = new UserRepositoryStub()
   const cryptoStub = new CryptoStub()
-  const sut = new SignInUser(userRepositoryStub, cryptoStub)
+  const accessTokenStub = new AccessTokenStub()
+  const sut = new SignInUser(userRepositoryStub, cryptoStub, accessTokenStub)
   return {
     sut,
     userRepositoryStub,
-    cryptoStub
+    cryptoStub,
+    accessTokenStub
   }
 }
 
@@ -33,7 +37,7 @@ describe('Sign In user', () => {
     }))
 
     const result = await sut.execute('fake@mail.com', 'fake_password')
-    expect(result).toBe('user_token')
+    expect(result).toBe('fake_id-token')
   })
 
   it('should return an InvalidCredentialsError if email or password are wrong', async () => {

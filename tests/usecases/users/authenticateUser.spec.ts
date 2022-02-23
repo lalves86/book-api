@@ -1,11 +1,11 @@
 import { InvalidCredentialsError } from '@/usecases/error/users'
-import { SignInUser } from '@/usecases/users/signInUser'
+import { AuthenticateUser } from '@/usecases/users/authenticateUser'
 import { AccessTokenStub } from '../stubs/accessTokenStub'
 import { CryptoStub } from '../stubs/cryptoStub'
 import { UserRepositoryStub } from '../stubs/userRepositoryStub'
 
 type sutTypes = {
-  sut: SignInUser
+  sut: AuthenticateUser
   userRepositoryStub: UserRepositoryStub
   cryptoStub: CryptoStub
   accessTokenStub: AccessTokenStub
@@ -15,7 +15,7 @@ const makeSut = (): sutTypes => {
   const userRepositoryStub = new UserRepositoryStub()
   const cryptoStub = new CryptoStub()
   const accessTokenStub = new AccessTokenStub()
-  const sut = new SignInUser(userRepositoryStub, cryptoStub, accessTokenStub)
+  const sut = new AuthenticateUser(userRepositoryStub, cryptoStub, accessTokenStub)
   return {
     sut,
     userRepositoryStub,

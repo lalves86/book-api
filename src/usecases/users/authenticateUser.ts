@@ -3,7 +3,7 @@ import { AccessToken } from '../ports/authentication'
 import { Crypto } from '../ports/criptography'
 import { UserRepository } from '../ports/repositories'
 
-export class SignInUser {
+export class AuthenticateUser {
   constructor (
     private readonly userRepository: UserRepository,
     private readonly crypto: Crypto,

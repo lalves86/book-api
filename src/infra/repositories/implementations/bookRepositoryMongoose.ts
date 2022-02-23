@@ -5,7 +5,6 @@ import { bookModel } from '@/infra/databases/mongodb/model/bookModel'
 
 export class BookRepositoryMongoose implements BookRepository {
   async create (book: CreateBookDto): Promise<Book> {
-    console.log(book)
     const newBook = await bookModel.create(book)
     return newBook
   }

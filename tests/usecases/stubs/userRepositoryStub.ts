@@ -17,4 +17,15 @@ export class UserRepositoryStub implements UserRepository {
   async getByEmail (email: string): Promise<User> {
     return Promise.resolve(null)
   }
+
+  async findById (userId: string): Promise<User> {
+    return Promise.resolve({
+      id: 'fake_id',
+      username: 'fake_username',
+      email: 'fake@mail.com',
+      password: 'fake_password-hash',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    })
+  }
 }

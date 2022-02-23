@@ -39,4 +39,8 @@ export class UserRepositoryStub implements UserRepository {
       updatedAt: new Date()
     })
   }
+
+  async delete (userId: string): Promise<string> {
+    return Promise.resolve('User fake_id deleted')
+  }
 }

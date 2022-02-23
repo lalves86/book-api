@@ -1,20 +1,9 @@
 import { CreateUserDto } from '@/usecases/dtos/users'
 import { UserAlreadyExistsError } from '@/usecases/error/users/userAlreadyExistsError'
-import { Crypto } from '@/usecases/ports/criptography'
 import { CreateUser } from '@/usecases/users/createUser'
 import Mockdate from 'mockdate'
+import { CryptoStub } from '../stubs/cryptoStub'
 import { UserRepositoryStub } from '../stubs/userRepositoryStub'
-
-class CryptoStub implements Crypto {
-  async hash (plaintext: string): Promise<string> {
-    return plaintext + '-hash'
-  }
-
-  async compare (plaintext: string, hash: string): Promise<boolean> {
-    const decodedHash = hash.replace('-hash', '')
-    return plaintext === decodedHash
-  }
-}
 
 type sutTypes = {
   sut: CreateUser

@@ -1,3 +1,4 @@
+import { AuthUserDto } from '@/usecases/dtos/users'
 import { InvalidCredentialsError } from '@/usecases/error/users'
 import { AuthenticateUser } from '@/usecases/users/authenticateUser'
 import { AccessTokenStub } from '../stubs/accessTokenStub'
@@ -36,7 +37,12 @@ describe('Sign In user', () => {
       updatedAt: new Date()
     }))
 
-    const result = await sut.execute('fake@mail.com', 'fake_password')
+    const authParams: AuthUserDto = {
+      email: 'fake@mail.com',
+      password: 'fake_password'
+    }
+
+    const result = await sut.execute(authParams)
     expect(result).toBe('fake_id-token')
   })
 
@@ -51,7 +57,12 @@ describe('Sign In user', () => {
       updatedAt: new Date()
     }))
 
-    await expect(sut.execute('fake@mail.com', 'wrong_password'))
+    const authParams: AuthUserDto = {
+      email: 'fake@mail.com',
+      password: 'wrong_password'
+    }
+
+    await expect(sut.execute(authParams))
       .rejects.toThrow(new InvalidCredentialsError('Invalid credentials.'))
   })
 })

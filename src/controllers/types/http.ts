@@ -22,6 +22,10 @@ export const HttpStatusCodes = {
     code: 400,
     message: 'Bad Request'
   },
+  unauthorized: {
+    code: 401,
+    message: 'Unauthorized'
+  },
   serverError: {
     code: 500,
     message: 'Internal Server Error'

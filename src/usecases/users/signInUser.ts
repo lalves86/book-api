@@ -12,7 +12,7 @@ export class SignInUser {
     const user = await this.userRepository.getByEmail(email)
     const isPasswordValid = await this.crypto.compare(password, user.password)
     if (!isPasswordValid || !user) {
-      throw new InvalidCredentialsError('Invalid credentias.')
+      throw new InvalidCredentialsError('Invalid credentials.')
     }
     return 'user_token'
   }

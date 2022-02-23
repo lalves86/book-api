@@ -1,3 +1,4 @@
+import { InvalidCredentialsError } from '@/usecases/error/users'
 import { SignInUser } from '@/usecases/users/signInUser'
 import { CryptoStub } from '../stubs/cryptoStub'
 import { UserRepositoryStub } from '../stubs/userRepositoryStub'
@@ -33,5 +34,20 @@ describe('Sign In user', () => {
 
     const result = await sut.execute('fake@mail.com', 'fake_password')
     expect(result).toBe('user_token')
+  })
+
+  it('should return an InvalidCredentialsError if email or password are wrong', async () => {
+    const { sut, userRepositoryStub } = makeSut()
+    jest.spyOn(userRepositoryStub, 'getByEmail').mockReturnValueOnce(Promise.resolve({
+      id: 'fake_id',
+      username: 'fake_username',
+      email: 'fake@mail.com',
+      password: 'fake_password-hash',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }))
+
+    await expect(sut.execute('fake@mail.com', 'wrong_password'))
+      .rejects.toThrow(new InvalidCredentialsError('Invalid credentials.'))
   })
 })

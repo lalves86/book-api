@@ -29,6 +29,10 @@ export const HttpStatusCodes = {
     code: 401,
     message: 'Unauthorized'
   },
+  forbidden: {
+    code: 403,
+    message: 'Forbidden'
+  },
   serverError: {
     code: 500,
     message: 'Internal Server Error'

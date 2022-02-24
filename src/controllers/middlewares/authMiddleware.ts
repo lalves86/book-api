@@ -10,30 +10,31 @@ export class AuthMiddleware implements Middleware {
   ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const accessToken = httpRequest.headers.authorization
-    if (!accessToken) {
-      return {
-        httpStatusCode: HttpStatusCodes.unauthorized.code,
-        body: {
-          message: 'Missing access token'
+    try {
+      const accessToken = httpRequest.headers.authorization
+      if (!accessToken) {
+        return {
+          httpStatusCode: HttpStatusCodes.unauthorized.code,
+          body: {
+            message: 'Missing access token'
+          }
         }
       }
-    }
-    const [, token] = accessToken.split(' ')
-    const userId = await this.accessToken.verify(token)
-    const user = await this.listUserById.execute(userId)
-    if (!user) {
+      const [, token] = accessToken.split(' ')
+      const userId = await this.accessToken.verify(token)
+      const user = await this.listUserById.execute(userId)
+      return {
+        httpStatusCode: HttpStatusCodes.ok.code,
+        body: {
+          id: user.id
+        }
+      }
+    } catch (error) {
       return {
         httpStatusCode: HttpStatusCodes.forbidden.code,
         body: {
-          message: 'Invalid access token'
+          message: error.message
         }
-      }
-    }
-    return {
-      httpStatusCode: HttpStatusCodes.ok.code,
-      body: {
-        id: user.id
       }
     }
   }

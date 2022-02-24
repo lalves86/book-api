@@ -8,7 +8,7 @@ export class JwtAdapter implements AccessToken {
   }
 
   verify (token: string): Promise<string> {
-    const { sub: userId } = jwt.verify(token, 'secret') as { sub: string }
+    const { userId } = jwt.verify(token, 'secret') as { userId: string }
     return Promise.resolve(userId)
   }
 }

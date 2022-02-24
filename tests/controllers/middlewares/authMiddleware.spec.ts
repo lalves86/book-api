@@ -53,8 +53,8 @@ describe('Auth middleware', () => {
   })
 
   it('should throw access denied error if user token is wrong', async () => {
-    const { sut, listUserById } = makeSut()
-    jest.spyOn(listUserById, 'execute').mockReturnValueOnce(Promise.resolve(null))
+    const { sut, accessTokenStub } = makeSut()
+    jest.spyOn(accessTokenStub, 'verify').mockReturnValueOnce(Promise.reject(new Error()))
 
     const httpRequest = {
       headers: {
@@ -64,7 +64,6 @@ describe('Auth middleware', () => {
 
     const response = await sut.handle(httpRequest)
 
-    expect(response.body.message).toEqual('Invalid access token')
     expect(response.httpStatusCode).toEqual(HttpStatusCodes.forbidden.code)
   })
 })

@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { adaptRoute } from '../adapters/expressRouteAdapter'
+import { adaptRoute } from '../adapters/bookExpressRouteAdapter'
 import { makeBookController } from '../factories/makeBookController'
 
 const bookRouter = Router()

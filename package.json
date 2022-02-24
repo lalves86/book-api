@@ -15,6 +15,7 @@
     "test:coverage": "yarn test --coverage"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.0",
     "@typescript-eslint/eslint-plugin": "^5.10.2",
@@ -35,7 +36,9 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "express": "^4.17.2",
+    "joi": "^17.6.0",
     "mongodb": "^4.4.0",
     "mongoose": "^6.2.2"
   }

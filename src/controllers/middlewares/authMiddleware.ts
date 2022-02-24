@@ -1,8 +1,7 @@
 import { AccessToken } from '@/usecases/ports/authentication'
 import { ListUserById } from '@/usecases/users/listUserById'
-import { AccessDeniedError } from '../error/accessDeniedError'
 import { Middleware } from '../ports/middleware'
-import { HttpRequest } from '../types/http'
+import { HttpRequest, HttpResponse, HttpStatusCodes } from '../types/http'
 
 export class AuthMiddleware implements Middleware {
   constructor (
@@ -10,16 +9,32 @@ export class AuthMiddleware implements Middleware {
     private readonly listUserById: ListUserById
   ) {}
 
-  async handle (httpRequest: HttpRequest): Promise<void> {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     const accessToken = httpRequest.headers.authorization
     if (!accessToken) {
-      throw new AccessDeniedError('Missing access token')
+      return {
+        httpStatusCode: HttpStatusCodes.unauthorized.code,
+        body: {
+          message: 'Missing access token'
+        }
+      }
     }
     const [, token] = accessToken.split(' ')
     const userId = await this.accessToken.verify(token)
     const user = await this.listUserById.execute(userId)
     if (!user) {
-      throw new AccessDeniedError('Invalid access token')
+      return {
+        httpStatusCode: HttpStatusCodes.forbidden.code,
+        body: {
+          message: 'Invalid access token'
+        }
+      }
+    }
+    return {
+      httpStatusCode: HttpStatusCodes.ok.code,
+      body: {
+        id: user.id
+      }
     }
   }
 }

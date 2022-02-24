@@ -1,5 +1,5 @@
-import { AccessDeniedError } from '@/controllers/error/accessDeniedError'
 import { AuthMiddleware } from '@/controllers/middlewares/authMiddleware'
+import { HttpStatusCodes } from '@/controllers/types/http'
 import { ListUserById } from '@/usecases/users/listUserById'
 import { AccessTokenStub, UserRepositoryStub } from '@test/usecases/stubs'
 
@@ -31,7 +31,10 @@ describe('Auth middleware', () => {
       }
     }
 
-    await expect(sut.handle(httpRequest)).resolves.toBeUndefined()
+    const response = await sut.handle(httpRequest)
+
+    expect(response.body.id).toBe('fake_id')
+    expect(response.httpStatusCode).toBe(HttpStatusCodes.ok.code)
   })
 
   it('should throw access denied error if token is not passed', async () => {
@@ -43,7 +46,10 @@ describe('Auth middleware', () => {
       }
     }
 
-    await expect(sut.handle(httpRequest)).rejects.toEqual(new AccessDeniedError('Missing access token'))
+    const response = await sut.handle(httpRequest)
+
+    expect(response.body.message).toEqual('Missing access token')
+    expect(response.httpStatusCode).toEqual(HttpStatusCodes.unauthorized.code)
   })
 
   it('should throw access denied error if user token is wrong', async () => {
@@ -56,6 +62,9 @@ describe('Auth middleware', () => {
       }
     }
 
-    await expect(sut.handle(httpRequest)).rejects.toEqual(new AccessDeniedError('Invalid access token'))
+    const response = await sut.handle(httpRequest)
+
+    expect(response.body.message).toEqual('Invalid access token')
+    expect(response.httpStatusCode).toEqual(HttpStatusCodes.forbidden.code)
   })
 })

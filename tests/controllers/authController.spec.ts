@@ -47,7 +47,7 @@ describe('Auth controller', () => {
     }
     const response = await sut.login(httpRequest)
     expect(response.httpStatusCode).toEqual(HttpStatusCodes.ok.code)
-    expect(response.body).toEqual('fake_id-token')
+    expect(response.body.accessToken).toEqual('fake_id-token')
   })
 
   it('should throw a server error if usecase throws', async () => {

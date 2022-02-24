@@ -34,7 +34,9 @@ export class AuthController {
       const response = await this.authenticateUser.execute(httpRequest.body)
       return {
         httpStatusCode: HttpStatusCodes.ok.code,
-        body: response
+        body: {
+          accessToken: response
+        }
       }
     } catch (error) {
       if (error instanceof InvalidCredentialsError) {

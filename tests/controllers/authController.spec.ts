@@ -114,11 +114,12 @@ describe('Auth controller', () => {
 
     const httpRequest = {
       body: {
+        email: 'invalid_mail',
         password: 'fake_password'
       }
     }
     const response = await sut.login(httpRequest)
     expect(response.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
-    expect(response.body.message).toEqual('Missing fields')
+    expect(response.body.message).toEqual('Invalid fields')
   })
 })

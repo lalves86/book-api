@@ -17,8 +17,9 @@ export const adaptMiddleware = (middleware: Middleware): RequestHandler => {
       const response = await middleware.handle(httpRequest)
       if (response.httpStatusCode !== HttpStatusCodes.ok.code) {
         res.status(response.httpStatusCode).json(response.body)
+      } else {
+        next()
       }
-      next()
     } catch (error) {
       res.status(error.httpStatusCode).json(error.body)
     }

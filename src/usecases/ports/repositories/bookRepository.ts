@@ -8,4 +8,5 @@ export interface BookRepository {
   getByTitle (title: string): Promise<Book>
   update (book: UpdateBookDto): Promise<Book>
   delete (id: string): Promise<string>
+  listByUserId (userId: string): Promise<Book[]>
 }

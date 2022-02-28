@@ -25,5 +25,10 @@ export const bookSchema = new mongoose.Schema({
     type: String,
     enum: ['Wanna read', 'Reading', 'Read'],
     default: 'Wanna read'
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   }
 })

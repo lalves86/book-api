@@ -35,7 +35,8 @@ describe('CreateBook', () => {
       author: 'Fake Author',
       finishedAt: new Date(),
       grade: 5,
-      status: 'Read'
+      status: 'Read',
+      userId: 'fake_user_id'
     }
     const result = await sut.execute(fakeBook)
 
@@ -52,7 +53,8 @@ describe('CreateBook', () => {
       author: 'Fake Author',
       finishedAt: new Date(),
       grade: 5,
-      status: 'Read'
+      status: 'Read',
+      userId: 'fake_user_id'
     }
     jest.spyOn(bookRepositoryStub, 'getByTitle').mockReturnValueOnce(Promise.resolve({
       id: 'fake_id',
@@ -75,7 +77,8 @@ describe('CreateBook', () => {
       title: 'Fake Title',
       author: 'Fake Author',
       grade: 5,
-      status: 'Wanna read'
+      status: 'Wanna read',
+      userId: 'fake_user_id'
     }
     const promise = sut.execute(fakeBook)
 
@@ -88,7 +91,8 @@ describe('CreateBook', () => {
       title: 'Fake Title',
       author: 'Fake Author',
       grade: 5,
-      status: 'Read'
+      status: 'Read',
+      userId: 'fake_user_id'
     }
     const promise = sut.execute(fakeBook)
 

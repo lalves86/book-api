@@ -1,7 +1,8 @@
 export type HttpRequest = {
   headers?: {
     authorization: string
-  }
+  },
+  userId?: string,
   params?: any
   body?: any
   query?: any

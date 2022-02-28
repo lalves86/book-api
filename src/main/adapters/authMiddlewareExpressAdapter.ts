@@ -4,12 +4,13 @@ import { NextFunction, Request, RequestHandler, Response } from 'express'
 
 export const adaptMiddleware = (middleware: Middleware): RequestHandler => {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const { body, params, query, headers } = req
+    const { body, params, query, headers, userId } = req
     try {
       const httpRequest: HttpRequest = {
         params,
         body,
         query,
+        userId,
         headers: {
           authorization: headers.authorization
         }
@@ -18,6 +19,7 @@ export const adaptMiddleware = (middleware: Middleware): RequestHandler => {
       if (response.httpStatusCode !== HttpStatusCodes.ok.code) {
         res.status(response.httpStatusCode).json(response.body)
       } else {
+        req.userId = response.body.id
         next()
       }
     } catch (error) {

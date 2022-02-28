@@ -23,9 +23,14 @@ export class BookController {
           }
         }
       }
-
+      const { userId } = httpRequest
       const { body } = httpRequest
-      const response = await this.createBook.execute(body)
+      const user = {
+        userId,
+        ...body
+      }
+
+      const response = await this.createBook.execute(user)
 
       return {
         httpStatusCode: HttpStatusCodes.created.code,

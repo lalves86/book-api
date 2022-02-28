@@ -6,4 +6,5 @@ export class CreateBookDto {
   finishedAt?: Date
   grade?: number
   status: BookStatus
+  userId: string
 }

@@ -5,11 +5,12 @@ import { Request, Response } from 'express'
 export const adaptRoute = (controller: BookController) => {
   return {
     create: async (req: Request, res: Response): Promise<Response> => {
-      const { body, params, query } = req
+      const { body, params, query, userId } = req
       const httpRequest: HttpRequest = {
         params,
         body,
-        query
+        query,
+        userId
       }
       const httpResponse = await controller.create(httpRequest)
       return res.status(httpResponse.httpStatusCode).json(httpResponse.body)

@@ -11,7 +11,8 @@ export class BookRepositoryStub implements BookRepository {
       createdAt: new Date(),
       finishedAt: new Date(),
       grade: 5,
-      status: 'Read'
+      status: 'Read',
+      userId: 'fake_user_id'
     })
   }
 
@@ -24,21 +25,24 @@ export class BookRepositoryStub implements BookRepository {
         createdAt: new Date(),
         finishedAt: new Date(),
         grade: 5,
-        status: 'Read'
+        status: 'Read',
+        userId: 'fake_user_id'
       },
       {
         id: 'fake_id_2',
         title: 'Fake Title 2',
         author: 'Fake Author 2',
         createdAt: new Date(),
-        status: 'Reading'
+        status: 'Reading',
+        userId: 'fake_user_id'
       },
       {
         id: 'fake_id+3',
         title: 'Fake Title 3',
         author: 'Fake Author 3',
         createdAt: new Date(),
-        status: 'Wanna read'
+        status: 'Wanna read',
+        userId: 'fake_user_id'
       }
     ])
   }
@@ -51,7 +55,8 @@ export class BookRepositoryStub implements BookRepository {
       createdAt: new Date(),
       finishedAt: new Date(),
       grade: 5,
-      status: 'Read'
+      status: 'Read',
+      userId: 'fake_user_id'
     })
   }
 
@@ -67,7 +72,8 @@ export class BookRepositoryStub implements BookRepository {
       createdAt: new Date(),
       finishedAt: new Date(),
       grade: 5,
-      status: 'Read'
+      status: 'Read',
+      userId: 'fake_user_id'
     })
   }
 

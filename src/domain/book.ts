@@ -8,4 +8,5 @@ export type Book = {
   finishedAt?: Date
   grade?: number
   status: BookStatus
+  userId: string
 }

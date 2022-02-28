@@ -129,14 +129,16 @@ describe('BookController', () => {
           createdAt: new Date(),
           finishedAt: new Date(),
           grade: 5,
-          status: 'Read'
+          status: 'Read',
+          userId: 'fake_user_id'
         },
         {
           id: 'fake_id_2',
           title: 'Fake Title 2',
           author: 'Fake Author 2',
           createdAt: new Date(),
-          status: 'Wanna read'
+          status: 'Wanna read',
+          userId: 'fake_user_id'
         }
       ]))
       const response = await sut.index()

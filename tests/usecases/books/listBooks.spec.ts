@@ -28,7 +28,8 @@ describe('ListBooks', () => {
       createdAt: new Date(),
       finishedAt: new Date(),
       grade: 5,
-      status: 'Read'
+      status: 'Read',
+      userId: 'fake_user_id'
     })
   })
 })

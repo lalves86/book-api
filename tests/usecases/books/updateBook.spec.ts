@@ -79,7 +79,8 @@ describe('UpdateBook', () => {
       createdAt: new Date(),
       finishedAt: null,
       grade: null,
-      status: 'Wanna read'
+      status: 'Wanna read',
+      userId: 'fake_user_id'
     }))
 
     const promise = sut.execute({ ...fakeBook, grade: 5 })
@@ -103,7 +104,8 @@ describe('UpdateBook', () => {
       createdAt: new Date(),
       finishedAt: null,
       grade: null,
-      status: 'Wanna read'
+      status: 'Wanna read',
+      userId: 'fake_user_id'
     }))
 
     const promise = sut.execute(fakeBook)

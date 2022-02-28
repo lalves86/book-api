@@ -36,4 +36,14 @@ export class BookRepositoryMongoose implements BookRepository {
     await bookModel.findByIdAndDelete(id)
     return `Book with id ${id} deleted`
   }
+
+  async listByUserId (userId: string): Promise<Book[]> {
+    const books = await bookModel.find({ userId })
+    return books
+  }
+
+  async listByTitleAndUserId (title: string, userId: string): Promise<Book> {
+    const book = await bookModel.findOne({ title, userId })
+    return book
+  }
 }

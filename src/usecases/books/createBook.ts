@@ -10,8 +10,8 @@ export class CreateBook implements UseCase<Book> {
   ) {}
 
   async execute (book: CreateBookDto): Promise<Book> {
-    const bookExists = await this.bookRepository.getByTitle(book.title)
-    if (bookExists && bookExists.userId === book.userId) {
+    const bookExists = await this.bookRepository.listByTitleAndUserId(book.title, book.userId)
+    if (bookExists) {
       throw new BookAlreadyExistsError('Book already exists')
     }
     if (book.status !== 'Read' && book.grade) {

@@ -56,7 +56,7 @@ describe('CreateBook', () => {
       status: 'Read',
       userId: 'fake_user_id'
     }
-    jest.spyOn(bookRepositoryStub, 'getByTitle').mockReturnValueOnce(Promise.resolve({
+    jest.spyOn(bookRepositoryStub, 'listByTitleAndUserId').mockReturnValueOnce(Promise.resolve({
       id: 'fake_id',
       title: 'Fake Title',
       author: 'Fake Author',
@@ -72,7 +72,7 @@ describe('CreateBook', () => {
   })
 
   it('should allow to add 2 books with the same title by different users', async () => {
-    const { sut, bookRepositoryStub } = makeSut()
+    const { sut } = makeSut()
     const fakeBook: CreateBookDto = {
       title: 'Fake Title',
       author: 'Fake Author',
@@ -81,16 +81,7 @@ describe('CreateBook', () => {
       status: 'Read',
       userId: 'fake_user_id'
     }
-    jest.spyOn(bookRepositoryStub, 'getByTitle').mockReturnValueOnce(Promise.resolve({
-      id: 'fake_id',
-      title: 'Fake Title',
-      author: 'Fake Author',
-      createdAt: new Date(),
-      finishedAt: new Date(),
-      grade: 5,
-      status: 'Read',
-      userId: 'other_user_id'
-    }))
+
     const result = await sut.execute(fakeBook)
 
     expect(result.id).toBeDefined()

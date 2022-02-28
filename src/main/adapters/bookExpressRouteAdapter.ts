@@ -44,6 +44,14 @@ export const adaptRoute = (controller: BookController) => {
       }
       const httpResponse = await controller.delete(httpRequest)
       return res.status(httpResponse.httpStatusCode).json(httpResponse.body)
+    },
+    listByUserId: async (req: Request, res: Response): Promise<Response> => {
+      const { userId } = req
+      const httpRequest: HttpRequest = {
+        userId
+      }
+      const httpResponse = await controller.booksByUser(httpRequest)
+      return res.status(httpResponse.httpStatusCode).json(httpResponse.body)
     }
   }
 }

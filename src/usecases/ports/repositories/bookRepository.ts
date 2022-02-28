@@ -9,4 +9,5 @@ export interface BookRepository {
   update (book: UpdateBookDto): Promise<Book>
   delete (id: string): Promise<string>
   listByUserId (userId: string): Promise<Book[]>
+  listByTitleAndUserId (title: string, userId: string): Promise<Book>
 }

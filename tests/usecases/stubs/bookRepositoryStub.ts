@@ -111,4 +111,8 @@ export class BookRepositoryStub implements BookRepository {
       }
     ])
   }
+
+  listByTitleAndUserId (title: string, userId: string): Promise<Book> {
+    return Promise.resolve(null)
+  }
 }

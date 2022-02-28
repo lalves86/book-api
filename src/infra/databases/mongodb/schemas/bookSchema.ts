@@ -27,7 +27,7 @@ export const bookSchema = new mongoose.Schema({
     default: 'Wanna read'
   },
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: 'User',
     required: true
   }

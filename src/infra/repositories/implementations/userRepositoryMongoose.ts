@@ -15,7 +15,7 @@ export class UserRepositoryMongoose implements UserRepository {
   }
 
   async findById (id: string): Promise<User> {
-    const user = await userModel.findById(id).populate('books')
+    const user = await userModel.findById(id)
     return user
   }
 

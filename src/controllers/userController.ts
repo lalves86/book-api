@@ -58,7 +58,7 @@ export class UserController {
 
   async show (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const response = await this.listUserById.execute(httpRequest.params.userId)
+      const response = await this.listUserById.execute(httpRequest.params.id)
       return {
         httpStatusCode: HttpStatusCodes.ok.code,
         body: response

@@ -13,6 +13,15 @@ export const adaptRoute = (controller: UserController) => {
       }
       const httpResponse = await controller.create(httpRequest)
       return res.status(httpResponse.httpStatusCode).json(httpResponse.body)
+    },
+    show: async (req: Request, res: Response): Promise<Response> => {
+      const { params, query } = req
+      const httpRequest: HttpRequest = {
+        params,
+        query
+      }
+      const httpResponse = await controller.show(httpRequest)
+      return res.status(httpResponse.httpStatusCode).json(httpResponse.body)
     }
   }
 }

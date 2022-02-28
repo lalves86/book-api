@@ -7,5 +7,6 @@ const userRouter = Router()
 const userController = adaptRoute(makeUserController())
 
 userRouter.post('/', userController.create)
+userRouter.get('/:id', userController.show)
 
 export default userRouter

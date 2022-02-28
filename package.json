@@ -5,7 +5,7 @@
   "author": "lalves86 <lucas.alves@engenharia.ufjf.br>",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/src/server.js",
+    "start": "node -r module-alias/register dist/src/server.js",
     "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "build": "rimraf dist && tsc -p tsconfig.json",
     "lint": "eslint 'src/**' --fix",

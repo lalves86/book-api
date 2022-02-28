@@ -11,6 +11,7 @@ export class BookRepositoryMongoose implements BookRepository {
 
   async list (): Promise<Book[]> {
     const books = await bookModel.find()
+      .populate('userId')
     return books
   }
 

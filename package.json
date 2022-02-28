@@ -5,7 +5,8 @@
   "author": "lalves86 <lucas.alves@engenharia.ufjf.br>",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
+    "start": "node dist/src/server.js",
+    "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "build": "rimraf dist && tsc -p tsconfig.json",
     "lint": "eslint 'src/**' --fix",
     "prepare": "husky install",
@@ -41,7 +42,11 @@
     "express": "^4.17.2",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
+    "module-alias": "^2.2.2",
     "mongodb": "^4.4.0",
     "mongoose": "^6.2.2"
+  },
+  "_moduleAliases": {
+    "@": "dist/src"
   }
 }

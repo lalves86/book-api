@@ -4,11 +4,14 @@
     "module": "commonjs",
     "target": "es2019",
     "esModuleInterop": true,
+    "sourceMap": true,
     "allowJs": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
       "@test/*": ["tests/*"],
-    }
+    },
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
   }
 }

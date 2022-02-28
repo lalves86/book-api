@@ -1,7 +1,7 @@
 import Mockdate from 'mockdate'
 import { BookController } from '@/controllers/bookController'
 import { HttpStatusCodes } from '@/controllers/types/http'
-import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook } from '@/usecases/books'
+import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook, ListBooksByUser } from '@/usecases/books'
 import { BookRepositoryStub } from '@test/usecases/stubs/bookRepositoryStub'
 import { ServerError } from '@/controllers/error/serverError'
 import { BookAlreadyExistsError, BookNotFoundError, InvalidDataError } from '@/usecases/error/books'
@@ -12,7 +12,8 @@ type SutTypes = {
   listBooks: ListBooks
   listBookById: ListBookById
   updateBook: UpdateBook,
-  deleteBook: DeleteBook
+  deleteBook: DeleteBook,
+  listBooksByUser: ListBooksByUser
 }
 
 const makeSut = (): SutTypes => {
@@ -22,14 +23,23 @@ const makeSut = (): SutTypes => {
   const listBookById: ListBookById = new ListBookById(bookRepository)
   const updateBook: UpdateBook = new UpdateBook(bookRepository)
   const deleteBook: DeleteBook = new DeleteBook(bookRepository)
-  const sut = new BookController(createBook, listBooks, listBookById, updateBook, deleteBook)
+  const listBooksByUser = new ListBooksByUser(bookRepository)
+  const sut = new BookController(
+    createBook,
+    listBooks,
+    listBookById,
+    updateBook,
+    deleteBook,
+    listBooksByUser
+  )
   return {
     sut,
     createBook,
     listBooks,
     listBookById,
     updateBook,
-    deleteBook
+    deleteBook,
+    listBooksByUser
   }
 }
 
@@ -355,6 +365,31 @@ describe('BookController', () => {
       const httpResponse = await sut.delete(httpRequest)
       expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
       expect(httpResponse.body.message).toEqual('Book id not found')
+    })
+  })
+
+  describe('booksByUser', () => {
+    it('should call listBooksByUser with correct params', async () => {
+      const { sut } = makeSut()
+      const httpRequest = {
+        userId: 'fake_user_id'
+      }
+
+      const httpResponse = await sut.booksByUser(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.ok.code)
+      expect(httpResponse.body[0].id).toEqual('fake_id_1')
+    })
+
+    it('should throw server error if usecase throws', async () => {
+      const { sut, listBooksByUser } = makeSut()
+      jest.spyOn(listBooksByUser, 'execute').mockReturnValueOnce(Promise.reject(new ServerError('Internal Server Error')))
+      const httpRequest = {
+        userId: 'fake_user_id'
+      }
+
+      const httpResponse = await sut.booksByUser(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.serverError.code)
+      expect(httpResponse.body).toEqual('Internal Server Error')
     })
   })
 })

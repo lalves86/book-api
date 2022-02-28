@@ -1,4 +1,4 @@
-import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook } from '@/usecases/books'
+import { CreateBook, DeleteBook, ListBookById, ListBooks, ListBooksByUser, UpdateBook } from '@/usecases/books'
 import { BookAlreadyExistsError, BookNotFoundError, InvalidDataError } from '@/usecases/error/books'
 import { HttpRequest, HttpResponse, HttpStatusCodes } from './types/http'
 
@@ -8,7 +8,8 @@ export class BookController {
     private readonly listBooks: ListBooks,
     private readonly listBookById: ListBookById,
     private readonly updateBook: UpdateBook,
-    private readonly deleteBook: DeleteBook
+    private readonly deleteBook: DeleteBook,
+    private readonly listBooksByUser: ListBooksByUser
   ) {}
 
   async create (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -151,6 +152,23 @@ export class BookController {
         }
       }
 
+      return {
+        httpStatusCode: HttpStatusCodes.serverError.code,
+        body: error.message
+      }
+    }
+  }
+
+  async booksByUser (httpRequest: HttpRequest): Promise<HttpResponse> {
+    try {
+      const { userId } = httpRequest
+      const response = await this.listBooksByUser.execute(userId)
+
+      return {
+        httpStatusCode: HttpStatusCodes.ok.code,
+        body: response
+      }
+    } catch (error) {
       return {
         httpStatusCode: HttpStatusCodes.serverError.code,
         body: error.message

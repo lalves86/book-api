@@ -7,9 +7,9 @@ const bookRouter = Router()
 
 const bookController = adaptRoute(makeBookController())
 
+bookRouter.get('/', bookController.index)
 bookRouter.use(ensureAuthenticated)
 bookRouter.post('/', bookController.create)
-bookRouter.get('/', bookController.index)
 bookRouter.get('/:id', bookController.show)
 bookRouter.put('/:id', bookController.update)
 bookRouter.delete('/:id', bookController.delete)

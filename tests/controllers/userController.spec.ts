@@ -8,12 +8,14 @@ import { UserAlreadyExistsError } from '@/data/error/users'
 import { ListUserById } from '@/data/usecases/users/listUserById'
 import { UserNotFoundError } from '@/data/error/users/userNotFoundError'
 import { UpdateUser } from '@/data/usecases/users/updateUser'
+import { DeleteUser } from '@/data/usecases/users/deleteUser'
 
 type SutTypes = {
   sut: UserController
   createUser: CreateUser
   listUserById: ListUserById
   updateUser: UpdateUser
+  deleteUser: DeleteUser
   validatorStub: ValidatorStub
 }
 
@@ -24,12 +26,14 @@ const makeSut = (): SutTypes => {
   const createUser = new CreateUser(userRepositoryStub, cryptoStub)
   const listUserById = new ListUserById(userRepositoryStub)
   const updateUser = new UpdateUser(userRepositoryStub, cryptoStub)
-  const sut = new UserController(validatorStub, createUser, listUserById, updateUser)
+  const deleteUser = new DeleteUser(userRepositoryStub)
+  const sut = new UserController(validatorStub, createUser, listUserById, updateUser, deleteUser)
   return {
     sut,
     createUser,
     listUserById,
     updateUser,
+    deleteUser,
     validatorStub
   }
 }
@@ -258,6 +262,46 @@ describe('User controller', () => {
 
       const httpResponse = await sut.update(httpRequest)
       expect(httpResponse.body.message).toEqual('Invalid fields')
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
+    })
+  })
+
+  describe('deleteUser', () => {
+    it('should call delete user with correct params', async () => {
+      const { sut } = makeSut()
+
+      const httpRequest = {
+        userId: 'fake_id'
+      }
+
+      const httpResponse = await sut.delete(httpRequest)
+      expect(httpResponse.body).toEqual('User fake_id deleted')
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.ok.code)
+    })
+
+    it('should throw server error if usecase throws', async () => {
+      const { sut, deleteUser } = makeSut()
+      jest.spyOn(deleteUser, 'execute').mockReturnValueOnce(Promise.reject(new ServerError('Internal Server Error')))
+
+      const httpRequest = {
+        userId: 'fake_id'
+      }
+
+      const httpResponse = await sut.delete(httpRequest)
+      expect(httpResponse.body).toEqual('Internal Server Error')
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.serverError.code)
+    })
+
+    it('should return a bad request if user id is not found', async () => {
+      const { sut, deleteUser } = makeSut()
+      jest.spyOn(deleteUser, 'execute').mockReturnValueOnce(Promise.reject(new UserNotFoundError('User not found')))
+
+      const httpRequest = {
+        userId: 'wrong_user_id'
+      }
+
+      const httpResponse = await sut.delete(httpRequest)
+      expect(httpResponse.body.message).toEqual('User not found')
       expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
     })
   })

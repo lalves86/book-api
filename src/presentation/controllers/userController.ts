@@ -2,6 +2,7 @@ import { CreateUserDto } from '@/data/dtos/users'
 import { UserAlreadyExistsError } from '@/data/error/users'
 import { UserNotFoundError } from '@/data/error/users/userNotFoundError'
 import { CreateUser } from '@/data/usecases/users/createUser'
+import { DeleteUser } from '@/data/usecases/users/deleteUser'
 import { ListUserById } from '@/data/usecases/users/listUserById'
 import { UpdateUser } from '@/data/usecases/users/updateUser'
 import { HttpRequest, HttpResponse, HttpStatusCodes } from '../types/http'
@@ -12,7 +13,8 @@ export class UserController {
     private readonly validator: Validator<CreateUserDto>,
     private readonly createUser: CreateUser,
     private readonly listUserById: ListUserById,
-    private readonly updateUser: UpdateUser
+    private readonly updateUser: UpdateUser,
+    private readonly deleteUser: DeleteUser
   ) {}
 
   async create (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -106,6 +108,31 @@ export class UserController {
       const { userId } = httpRequest
       const { body } = httpRequest
       const response = await this.updateUser.execute({ id: userId, ...body })
+      return {
+        httpStatusCode: HttpStatusCodes.ok.code,
+        body: response
+      }
+    } catch (error) {
+      if (error instanceof UserNotFoundError) {
+        return {
+          httpStatusCode: HttpStatusCodes.badRequest.code,
+          body: {
+            message: error.message
+          }
+        }
+      }
+
+      return {
+        httpStatusCode: HttpStatusCodes.serverError.code,
+        body: error.message
+      }
+    }
+  }
+
+  async delete (httpRequest: HttpRequest): Promise<HttpResponse> {
+    try {
+      const { userId } = httpRequest
+      const response = await this.deleteUser.execute(userId)
       return {
         httpStatusCode: HttpStatusCodes.ok.code,
         body: response

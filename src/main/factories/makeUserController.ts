@@ -9,6 +9,7 @@ import { UserRepository } from '@/data/ports/repositories'
 import { CreateUser } from '@/data/usecases/users/createUser'
 import { ListUserById } from '@/data/usecases/users/listUserById'
 import { UpdateUser } from '@/data/usecases/users/updateUser'
+import { DeleteUser } from '@/data/usecases/users/deleteUser'
 
 export const makeUserController = (): UserController => {
   const validator: Validator<CreateUserDto> = new JoiValidator()
@@ -17,6 +18,7 @@ export const makeUserController = (): UserController => {
   const createUser = new CreateUser(userRepository, crypto)
   const listUserById = new ListUserById(userRepository)
   const updateUser = new UpdateUser(userRepository, crypto)
+  const deleteUser = new DeleteUser(userRepository)
 
-  return new UserController(validator, createUser, listUserById, updateUser)
+  return new UserController(validator, createUser, listUserById, updateUser, deleteUser)
 }

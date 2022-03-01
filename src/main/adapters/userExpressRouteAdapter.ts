@@ -31,6 +31,14 @@ export const adaptRoute = (controller: UserController) => {
       }
       const httpResponse = await controller.update(httpRequest)
       return res.status(httpResponse.httpStatusCode).json(httpResponse.body)
+    },
+    delete: async (req: Request, res: Response): Promise<Response> => {
+      const { userId } = req
+      const httpRequest: HttpRequest = {
+        userId
+      }
+      const httpResponse = await controller.delete(httpRequest)
+      return res.status(httpResponse.httpStatusCode).json(httpResponse.body)
     }
   }
 }

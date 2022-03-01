@@ -1,9 +1,9 @@
 import { User } from '@/domain/user'
-import { UserRepository } from '@/usecases/ports/repositories'
-import { CreateUserDto } from '../dtos/users'
-import { UserAlreadyExistsError } from '../error/users'
-import { Crypto } from '../ports/criptography'
-import { UseCase } from '../ports/usecase'
+import { UserRepository } from '@/data/ports/repositories'
+import { CreateUserDto } from '../../dtos/users'
+import { UserAlreadyExistsError } from '../../error/users'
+import { Crypto } from '../../ports/criptography'
+import { UseCase } from '../../ports/usecase'
 
 export class CreateUser implements UseCase<User> {
   constructor (

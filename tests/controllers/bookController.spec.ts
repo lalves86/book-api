@@ -1,10 +1,10 @@
 import Mockdate from 'mockdate'
-import { BookController } from '@/controllers/bookController'
-import { HttpStatusCodes } from '@/controllers/types/http'
-import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook, ListBooksByUser } from '@/usecases/books'
+import { BookController } from '@/presentation/controllers/bookController'
+import { HttpStatusCodes } from '@/presentation/types/http'
+import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook, ListBooksByUser } from '@/data/usecases/books'
 import { BookRepositoryStub } from '@test/usecases/stubs/bookRepositoryStub'
-import { ServerError } from '@/controllers/error/serverError'
-import { BookAlreadyExistsError, BookNotFoundError, InvalidDataError } from '@/usecases/error/books'
+import { ServerError } from '@/presentation/error/serverError'
+import { BookAlreadyExistsError, BookNotFoundError, InvalidDataError } from '@/data/error/books'
 
 type SutTypes = {
   sut: BookController

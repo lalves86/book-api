@@ -1,4 +1,4 @@
-import { Crypto } from '@/usecases/ports/criptography'
+import { Crypto } from '@/data/ports/criptography'
 import bcrypt from 'bcrypt'
 
 export class BcryptAdapter implements Crypto {

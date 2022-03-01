@@ -1,9 +1,9 @@
 import { User } from '@/domain/user'
-import { UpdateUserDto } from '../dtos/users'
-import { UserNotFoundError } from '../error/users/userNotFoundError'
-import { Crypto } from '../ports/criptography'
-import { UserRepository } from '../ports/repositories'
-import { UseCase } from '../ports/usecase'
+import { UpdateUserDto } from '../../dtos/users'
+import { UserNotFoundError } from '../../error/users/userNotFoundError'
+import { Crypto } from '../../ports/criptography'
+import { UserRepository } from '../../ports/repositories'
+import { UseCase } from '../../ports/usecase'
 
 export class UpdateUser implements UseCase<User> {
   constructor (

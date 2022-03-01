@@ -1,8 +1,8 @@
-import { AuthController } from '@/controllers/authController'
-import { ServerError } from '@/controllers/error/serverError'
-import { HttpStatusCodes } from '@/controllers/types/http'
-import { InvalidCredentialsError } from '@/usecases/error/users'
-import { AuthenticateUser } from '@/usecases/users/authenticateUser'
+import { AuthController } from '@/presentation/controllers/authController'
+import { ServerError } from '@/presentation/error/serverError'
+import { HttpStatusCodes } from '@/presentation/types/http'
+import { InvalidCredentialsError } from '@/data/error/users'
+import { AuthenticateUser } from '@/data/usecases/users/authenticateUser'
 import { CryptoStub, UserRepositoryStub, ValidatorStub, AccessTokenStub } from '@test/usecases/stubs'
 
 type SutTypes = {

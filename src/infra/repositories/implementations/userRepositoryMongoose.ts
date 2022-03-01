@@ -1,7 +1,7 @@
 import { User } from '@/domain/user'
 import { userModel } from '@/infra/databases/mongodb/model/userModel'
-import { CreateUserDto, UpdateUserDto } from '@/usecases/dtos/users'
-import { UserRepository } from '@/usecases/ports/repositories'
+import { CreateUserDto, UpdateUserDto } from '@/data/dtos/users'
+import { UserRepository } from '@/data/ports/repositories'
 
 export class UserRepositoryMongoose implements UserRepository {
   async create (data: CreateUserDto): Promise<User> {

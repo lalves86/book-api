@@ -1,6 +1,6 @@
 import Joi from 'joi'
-import { Validator } from '@/controllers/validator'
-import { AuthUserDto } from '@/usecases/dtos/users'
+import { Validator } from '@/presentation/validator'
+import { AuthUserDto } from '@/data/dtos/users'
 
 export class JoiValidator implements Validator<AuthUserDto> {
   private schema = Joi.object({

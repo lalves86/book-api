@@ -1,6 +1,6 @@
 import { User } from '@/domain/user'
-import { UserRepository } from '@/usecases/ports/repositories'
-import { CreateUserDto, UpdateUserDto } from '@/usecases/dtos/users'
+import { UserRepository } from '@/data/ports/repositories'
+import { CreateUserDto, UpdateUserDto } from '@/data/dtos/users'
 
 export class UserRepositoryStub implements UserRepository {
   async create (user: CreateUserDto): Promise<User> {

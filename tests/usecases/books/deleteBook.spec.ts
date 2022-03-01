@@ -1,7 +1,7 @@
 import Mockdate from 'mockdate'
 import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
-import { DeleteBook } from '@/usecases/books'
-import { BookNotFoundError } from '@/usecases/error/books'
+import { DeleteBook } from '@/data/usecases/books'
+import { BookNotFoundError } from '@/data/error/books'
 
 type sutTypes = {
   sut: DeleteBook

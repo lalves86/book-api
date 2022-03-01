@@ -1,5 +1,5 @@
-import { HttpRequest } from '@/controllers/types/http'
-import { UserController } from '@/controllers/userController'
+import { HttpRequest } from '@/presentation/types/http'
+import { UserController } from '@/presentation/controllers/userController'
 import { Request, Response } from 'express'
 
 export const adaptRoute = (controller: UserController) => {

@@ -1,7 +1,7 @@
 import { Book } from '@/domain/book'
-import { BookRepository } from '@/usecases/ports/repositories/bookRepository'
-import { BookNotFoundError } from '../error/books'
-import { UseCase } from '../ports/usecase'
+import { BookRepository } from '@/data/ports/repositories/bookRepository'
+import { BookNotFoundError } from '../../error/books'
+import { UseCase } from '../../ports/usecase'
 
 export class DeleteBook implements UseCase<Book> {
   constructor (private readonly bookRepository: BookRepository) {}

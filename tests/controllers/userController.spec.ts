@@ -1,12 +1,12 @@
 import Mockdate from 'mockdate'
-import { UserController } from '@/controllers/userController'
-import { CreateUser } from '@/usecases/users/createUser'
+import { UserController } from '@/presentation/controllers/userController'
+import { CreateUser } from '@/data/usecases/users/createUser'
 import { UserRepositoryStub, ValidatorStub, CryptoStub } from '@test/usecases/stubs'
-import { HttpStatusCodes } from '@/controllers/types/http'
-import { ServerError } from '@/controllers/error/serverError'
-import { UserAlreadyExistsError } from '@/usecases/error/users'
-import { ListUserById } from '@/usecases/users/listUserById'
-import { UserNotFoundError } from '@/usecases/error/users/userNotFoundError'
+import { HttpStatusCodes } from '@/presentation/types/http'
+import { ServerError } from '@/presentation/error/serverError'
+import { UserAlreadyExistsError } from '@/data/error/users'
+import { ListUserById } from '@/data/usecases/users/listUserById'
+import { UserNotFoundError } from '@/data/error/users/userNotFoundError'
 
 type SutTypes = {
   sut: UserController

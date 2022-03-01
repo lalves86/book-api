@@ -1,13 +1,13 @@
-import { UserController } from '@/controllers/userController'
-import { Validator } from '@/controllers/validator'
+import { UserController } from '@/presentation/controllers/userController'
+import { Validator } from '@/presentation/validator'
 import { BcryptAdapter } from '@/infra/cryptography/bcryptAdapter'
 import { UserRepositoryMongoose } from '@/infra/repositories/implementations/userRepositoryMongoose'
 import { JoiValidator } from '@/infra/validators/createUserJoiValidator'
-import { CreateUserDto } from '@/usecases/dtos/users'
-import { Crypto } from '@/usecases/ports/criptography'
-import { UserRepository } from '@/usecases/ports/repositories'
-import { CreateUser } from '@/usecases/users/createUser'
-import { ListUserById } from '@/usecases/users/listUserById'
+import { CreateUserDto } from '@/data/dtos/users'
+import { Crypto } from '@/data/ports/criptography'
+import { UserRepository } from '@/data/ports/repositories'
+import { CreateUser } from '@/data/usecases/users/createUser'
+import { ListUserById } from '@/data/usecases/users/listUserById'
 
 export const makeUserController = (): UserController => {
   const validator: Validator<CreateUserDto> = new JoiValidator()

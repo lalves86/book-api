@@ -1,6 +1,6 @@
-import { AuthMiddleware } from '@/controllers/middlewares/authMiddleware'
-import { HttpStatusCodes } from '@/controllers/types/http'
-import { ListUserById } from '@/usecases/users/listUserById'
+import { AuthMiddleware } from '@/presentation/middlewares/authMiddleware'
+import { HttpStatusCodes } from '@/presentation/types/http'
+import { ListUserById } from '@/data/usecases/users/listUserById'
 import { AccessTokenStub, UserRepositoryStub } from '@test/usecases/stubs'
 
 type SutTypes = {

@@ -1,7 +1,7 @@
-import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook, ListBooksByUser } from '@/usecases/books'
-import { BookController } from '@/controllers/bookController'
+import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook, ListBooksByUser } from '@/data/usecases/books'
+import { BookController } from '@/presentation/controllers/bookController'
 import { BookRepositoryMongoose } from '@/infra/repositories/implementations/bookRepositoryMongoose'
-import { BookRepository } from '@/usecases/ports/repositories'
+import { BookRepository } from '@/data/ports/repositories'
 
 export const makeBookController = (): BookController => {
   const bookRepository: BookRepository = new BookRepositoryMongoose()

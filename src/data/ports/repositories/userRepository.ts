@@ -1,5 +1,5 @@
 import { User } from '@/domain/user'
-import { CreateUserDto, UpdateUserDto } from '@/usecases/dtos/users'
+import { CreateUserDto, UpdateUserDto } from '@/data/dtos/users'
 
 export interface UserRepository {
   create (data: CreateUserDto): Promise<User>

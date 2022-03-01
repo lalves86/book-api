@@ -1,4 +1,4 @@
-import { AccessToken } from '@/usecases/ports/authentication'
+import { AccessToken } from '@/data/ports/authentication'
 
 export class AccessTokenStub implements AccessToken {
   async sign (userId: string): Promise<string> {

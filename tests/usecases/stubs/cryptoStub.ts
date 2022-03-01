@@ -1,4 +1,4 @@
-import { Crypto } from '@/usecases/ports/criptography'
+import { Crypto } from '@/data/ports/criptography'
 
 export class CryptoStub implements Crypto {
   async hash (plaintext: string): Promise<string> {

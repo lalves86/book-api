@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { AuthController } from '@/controllers/authController'
-import { HttpRequest } from '@/controllers/types/http'
+import { AuthController } from '@/presentation/controllers/authController'
+import { HttpRequest } from '@/presentation/types/http'
 
 export const adaptRoute = (controller: AuthController) => {
   return {

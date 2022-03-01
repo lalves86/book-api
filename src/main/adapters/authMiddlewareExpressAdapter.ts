@@ -1,5 +1,5 @@
-import { Middleware } from '@/controllers/ports/middleware'
-import { HttpRequest, HttpStatusCodes } from '@/controllers/types/http'
+import { Middleware } from '@/presentation/ports/middleware'
+import { HttpRequest, HttpStatusCodes } from '@/presentation/types/http'
 import { NextFunction, Request, RequestHandler, Response } from 'express'
 
 export const adaptMiddleware = (middleware: Middleware): RequestHandler => {

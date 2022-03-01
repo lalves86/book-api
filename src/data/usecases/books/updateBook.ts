@@ -1,8 +1,8 @@
 import { Book } from '@/domain/book'
-import { BookRepository } from '@/usecases/ports/repositories/bookRepository'
-import { UpdateBookDto } from '../dtos/books'
-import { BookNotFoundError, InvalidDataError } from '../error/books'
-import { UseCase } from '../ports/usecase'
+import { BookRepository } from '@/data/ports/repositories/bookRepository'
+import { UpdateBookDto } from '../../dtos/books'
+import { BookNotFoundError, InvalidDataError } from '../../error/books'
+import { UseCase } from '../../ports/usecase'
 
 export class UpdateBook implements UseCase<Book> {
   constructor (

@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { AccessToken } from '@/usecases/ports/authentication'
+import { AccessToken } from '@/data/ports/authentication'
 
 export class JwtAdapter implements AccessToken {
   sign (userId: string): Promise<string> {

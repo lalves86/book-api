@@ -1,8 +1,8 @@
-import { AuthUserDto } from '@/usecases/dtos/users'
-import { InvalidCredentialsError } from '@/usecases/error/users'
-import { AuthenticateUser } from '@/usecases/users/authenticateUser'
-import { HttpRequest, HttpResponse, HttpStatusCodes } from './types/http'
-import { Validator } from './validator'
+import { AuthUserDto } from '@/data/dtos/users'
+import { InvalidCredentialsError } from '@/data/error/users'
+import { AuthenticateUser } from '@/data/usecases/users/authenticateUser'
+import { HttpRequest, HttpResponse, HttpStatusCodes } from '../types/http'
+import { Validator } from '../validator'
 
 export class AuthController {
   constructor (

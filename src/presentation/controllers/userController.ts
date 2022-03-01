@@ -1,10 +1,10 @@
-import { CreateUserDto } from '@/usecases/dtos/users'
-import { UserAlreadyExistsError } from '@/usecases/error/users'
-import { UserNotFoundError } from '@/usecases/error/users/userNotFoundError'
-import { CreateUser } from '@/usecases/users/createUser'
-import { ListUserById } from '@/usecases/users/listUserById'
-import { HttpRequest, HttpResponse, HttpStatusCodes } from './types/http'
-import { Validator } from './validator'
+import { CreateUserDto } from '@/data/dtos/users'
+import { UserAlreadyExistsError } from '@/data/error/users'
+import { UserNotFoundError } from '@/data/error/users/userNotFoundError'
+import { CreateUser } from '@/data/usecases/users/createUser'
+import { ListUserById } from '@/data/usecases/users/listUserById'
+import { HttpRequest, HttpResponse, HttpStatusCodes } from '../types/http'
+import { Validator } from '../validator'
 
 export class UserController {
   constructor (

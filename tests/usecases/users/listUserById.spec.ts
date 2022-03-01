@@ -1,5 +1,5 @@
-import { UserNotFoundError } from '@/usecases/error/users/userNotFoundError'
-import { ListUserById } from '@/usecases/users/listUserById'
+import { UserNotFoundError } from '@/data/error/users/userNotFoundError'
+import { ListUserById } from '@/data/usecases/users/listUserById'
 import Mockdate from 'mockdate'
 import { UserRepositoryStub } from '../stubs/userRepositoryStub'
 

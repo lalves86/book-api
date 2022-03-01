@@ -1,4 +1,4 @@
-import { ListBooksByUser } from '@/usecases/books/listBooksByUser'
+import { ListBooksByUser } from '@/data/usecases/books/listBooksByUser'
 import Mockdate from 'mockdate'
 import { BookRepositoryStub } from '../stubs'
 

@@ -1,5 +1,5 @@
-import { UserNotFoundError } from '@/usecases/error/users/userNotFoundError'
-import { DeleteUser } from '@/usecases/users/deleteUser'
+import { UserNotFoundError } from '@/data/error/users/userNotFoundError'
+import { DeleteUser } from '@/data/usecases/users/deleteUser'
 import { UserRepositoryStub } from '../stubs/userRepositoryStub'
 
 type sutTypes = {

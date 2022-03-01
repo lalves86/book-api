@@ -1,8 +1,8 @@
 import Mockdate from 'mockdate'
-import { CreateBook } from '@/usecases/books'
+import { CreateBook } from '@/data/usecases/books'
 import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
-import { BookAlreadyExistsError, InvalidDataError } from '@/usecases/error/books'
-import { CreateBookDto } from '@/usecases/dtos/books/createBookDto'
+import { BookAlreadyExistsError, InvalidDataError } from '@/data/error/books'
+import { CreateBookDto } from '@/data/dtos/books/createBookDto'
 
 type sutTypes = {
   sut: CreateBook

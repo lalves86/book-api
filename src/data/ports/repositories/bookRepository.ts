@@ -1,5 +1,5 @@
 import { Book } from '@/domain/book'
-import { CreateBookDto, UpdateBookDto } from '@/usecases/dtos/books'
+import { CreateBookDto, UpdateBookDto } from '@/data/dtos/books'
 
 export interface BookRepository {
   create (book: CreateBookDto): Promise<Book>

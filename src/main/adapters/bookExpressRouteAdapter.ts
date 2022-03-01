@@ -1,5 +1,5 @@
-import { BookController } from '@/controllers/bookController'
-import { HttpRequest } from '@/controllers/types/http'
+import { BookController } from '@/presentation/controllers/bookController'
+import { HttpRequest } from '@/presentation/types/http'
 import { Request, Response } from 'express'
 
 export const adaptRoute = (controller: BookController) => {

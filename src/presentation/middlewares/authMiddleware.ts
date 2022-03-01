@@ -1,5 +1,5 @@
-import { AccessToken } from '@/usecases/ports/authentication'
-import { ListUserById } from '@/usecases/users/listUserById'
+import { AccessToken } from '@/data/ports/authentication'
+import { ListUserById } from '@/data/usecases/users/listUserById'
 import { Middleware } from '../ports/middleware'
 import { HttpRequest, HttpResponse, HttpStatusCodes } from '../types/http'
 

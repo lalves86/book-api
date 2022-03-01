@@ -1,4 +1,4 @@
-import { Mail } from '@/data/ports/mail'
+import { Mail } from '@/data/ports/mail/mailService'
 
 export function nodemailerConfig (): Mail {
   return {
@@ -8,8 +8,7 @@ export function nodemailerConfig (): Mail {
     password: process.env.MAIL_PASSWORD,
     from: 'Book API <book@api.com>',
     to: '',
-    subject: 'Mensagem de teste',
-    text: 'Teste de texto',
-    html: '<p>Teste de html</p>'
+    subject: '',
+    html: ''
   }
 }

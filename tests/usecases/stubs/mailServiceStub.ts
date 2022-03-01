@@ -1,4 +1,4 @@
-import { Mail } from '@/data/ports/mail'
+import { Mail } from '@/data/ports/mail/mailService'
 
 export const mailStub: Mail = {
   host: 'test',

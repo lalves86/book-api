@@ -1,18 +1,22 @@
 import { MailServiceError } from '@/data/error/mail/mailServiceError'
 import { UserCreationMail } from '@/data/usecases/mailNotification/userCreationMail'
+import { MailParserStub } from '../stubs/mailParserStub'
 import { MailServiceStub, mailStub } from '../stubs/mailServiceStub'
 
 type SutTypes = {
   sut: UserCreationMail
   mailServiceStub: MailServiceStub
+  mailParserStub: MailParserStub
 }
 
 const makeSut = (): SutTypes => {
   const mailServiceStub = new MailServiceStub()
-  const sut = new UserCreationMail(mailStub, mailServiceStub)
+  const mailParserStub = new MailParserStub()
+  const sut = new UserCreationMail(mailStub, mailServiceStub, mailParserStub)
   return {
     sut,
-    mailServiceStub
+    mailServiceStub,
+    mailParserStub
   }
 }
 

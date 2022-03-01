@@ -12,6 +12,7 @@ import { ListUserById } from '@/data/usecases/users/listUserById'
 import { UpdateUser } from '@/data/usecases/users/updateUser'
 import { DeleteUser } from '@/data/usecases/users/deleteUser'
 import { UserCreationMail } from '@/data/usecases/mailNotification/userCreationMail'
+import { HandlebarsMailParserAdapter } from '@/infra/mailParser/handlebarsMailParserAdapter'
 import { nodemailerConfig } from '../config/nodemailerConfig'
 
 export const makeUserController = (): UserController => {
@@ -19,7 +20,8 @@ export const makeUserController = (): UserController => {
   const crypto: Crypto = new BcryptAdapter()
   const userRepository: UserRepository = new UserRepositoryMongoose()
   const mailService = new NodemailerAdapter()
-  const userCreationMail = new UserCreationMail(nodemailerConfig(), mailService)
+  const mailParser = new HandlebarsMailParserAdapter()
+  const userCreationMail = new UserCreationMail(nodemailerConfig(), mailService, mailParser)
   const createUser = new CreateUser(userRepository, crypto, userCreationMail)
   const listUserById = new ListUserById(userRepository)
   const updateUser = new UpdateUser(userRepository, crypto)

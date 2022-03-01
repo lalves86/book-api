@@ -11,6 +11,7 @@ import { UpdateUser } from '@/data/usecases/users/updateUser'
 import { DeleteUser } from '@/data/usecases/users/deleteUser'
 import { MailServiceStub, mailStub } from '@test/usecases/stubs/mailServiceStub'
 import { UserCreationMail } from '@/data/usecases/mailNotification/userCreationMail'
+import { MailParserStub } from '@test/usecases/stubs/mailParserStub'
 
 type SutTypes = {
   sut: UserController
@@ -26,7 +27,8 @@ const makeSut = (): SutTypes => {
   const cryptoStub = new CryptoStub()
   const validatorStub = new ValidatorStub()
   const mailServiceStub = new MailServiceStub()
-  const userCreationMail = new UserCreationMail(mailStub, mailServiceStub)
+  const mailParserStub = new MailParserStub()
+  const userCreationMail = new UserCreationMail(mailStub, mailServiceStub, mailParserStub)
   const createUser = new CreateUser(userRepositoryStub, cryptoStub, userCreationMail)
   const listUserById = new ListUserById(userRepositoryStub)
   const updateUser = new UpdateUser(userRepositoryStub, cryptoStub)

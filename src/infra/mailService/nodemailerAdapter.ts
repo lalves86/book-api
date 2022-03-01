@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import { Mail, MailService } from '@/data/ports/mail'
+import { Mail, MailService } from '@/data/ports/mail/mailService'
 
 export class NodemailerAdapter implements MailService {
   async send (mailInfo: Mail): Promise<Mail> {

@@ -1,12 +1,14 @@
 import { CreateUserDto } from '@/data/dtos/users'
 import { MailServiceError } from '@/data/error/mail/mailServiceError'
-import { Mail, MailService } from '@/data/ports/mail'
+import { MailParser } from '@/data/ports/mail/mailParser'
+import { Mail, MailService } from '@/data/ports/mail/mailService'
 import { UseCase } from '@/data/ports/usecase'
 
 export class UserCreationMail implements UseCase<Mail> {
   constructor (
     private mailOptions: Mail,
-    private mailService: MailService
+    private mailService: MailService,
+    private mailParser: MailParser
   ) {}
 
   async execute (user: CreateUserDto): Promise<Mail> {
@@ -17,9 +19,8 @@ export class UserCreationMail implements UseCase<Mail> {
       password: this.mailOptions.password,
       from: this.mailOptions.from,
       to: `${user.username} <${user.email}>`,
-      subject: this.mailOptions.subject,
-      text: this.mailOptions.text,
-      html: this.mailOptions.html
+      subject: 'Sua conta no Book API foi criada!',
+      html: this.mailParser.parse(user.username)
     }
     const mail = await this.mailService.send(mailInfo)
     if (!mail) {

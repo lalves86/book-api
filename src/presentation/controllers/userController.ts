@@ -1,4 +1,5 @@
 import { CreateUserDto } from '@/data/dtos/users'
+import { MailServiceError } from '@/data/error/mail/mailServiceError'
 import { UserAlreadyExistsError } from '@/data/error/users'
 import { UserNotFoundError } from '@/data/error/users/userNotFoundError'
 import { CreateUser } from '@/data/usecases/users/createUser'
@@ -44,7 +45,7 @@ export class UserController {
         body: response
       }
     } catch (error) {
-      if (error instanceof UserAlreadyExistsError) {
+      if (error instanceof UserAlreadyExistsError || error instanceof MailServiceError) {
         return {
           httpStatusCode: HttpStatusCodes.badRequest.code,
           body: {

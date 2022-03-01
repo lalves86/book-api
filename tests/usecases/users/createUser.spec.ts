@@ -1,8 +1,10 @@
 import { CreateUserDto } from '@/data/dtos/users'
 import { UserAlreadyExistsError } from '@/data/error/users/userAlreadyExistsError'
+import { UserCreationMail } from '@/data/usecases/mailNotification/userCreationMail'
 import { CreateUser } from '@/data/usecases/users/createUser'
 import Mockdate from 'mockdate'
 import { CryptoStub } from '../stubs/cryptoStub'
+import { MailServiceStub, mailStub } from '../stubs/mailServiceStub'
 import { UserRepositoryStub } from '../stubs/userRepositoryStub'
 
 type sutTypes = {
@@ -14,7 +16,9 @@ type sutTypes = {
 const makeSut = (): sutTypes => {
   const userRepositoryStub = new UserRepositoryStub()
   const cryptoStub = new CryptoStub()
-  const sut = new CreateUser(userRepositoryStub, cryptoStub)
+  const mailServiceStub = new MailServiceStub()
+  const userCreationMail = new UserCreationMail(mailStub, mailServiceStub)
+  const sut = new CreateUser(userRepositoryStub, cryptoStub, userCreationMail)
   return {
     sut,
     userRepositoryStub,

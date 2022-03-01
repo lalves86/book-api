@@ -105,7 +105,7 @@ export class UserController {
       }
       const { userId } = httpRequest
       const { body } = httpRequest
-      const response = await this.updateUser.execute({ userId, ...body })
+      const response = await this.updateUser.execute({ id: userId, ...body })
       return {
         httpStatusCode: HttpStatusCodes.ok.code,
         body: response

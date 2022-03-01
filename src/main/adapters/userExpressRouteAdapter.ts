@@ -22,6 +22,15 @@ export const adaptRoute = (controller: UserController) => {
       }
       const httpResponse = await controller.show(httpRequest)
       return res.status(httpResponse.httpStatusCode).json(httpResponse.body)
+    },
+    update: async (req: Request, res: Response): Promise<Response> => {
+      const { body, userId } = req
+      const httpRequest: HttpRequest = {
+        body,
+        userId
+      }
+      const httpResponse = await controller.update(httpRequest)
+      return res.status(httpResponse.httpStatusCode).json(httpResponse.body)
     }
   }
 }

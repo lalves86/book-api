@@ -13,7 +13,8 @@ module.exports = {
     '!<rootDir>/src/app.ts',
     '!<rootDir>/src/server.ts',
     '!<rootDir>/src/**/ports/**',
-    '!<rootDir>/src/**/dtos/**'
+    '!<rootDir>/src/**/dtos/**',
+    '!<rootDir>/src/@types/**'
   ],
   testEnvironment: 'node',
   transform: {

@@ -7,11 +7,13 @@ import { ServerError } from '@/presentation/error/serverError'
 import { UserAlreadyExistsError } from '@/data/error/users'
 import { ListUserById } from '@/data/usecases/users/listUserById'
 import { UserNotFoundError } from '@/data/error/users/userNotFoundError'
+import { UpdateUser } from '@/data/usecases/users/updateUser'
 
 type SutTypes = {
   sut: UserController
   createUser: CreateUser
   listUserById: ListUserById
+  updateUser: UpdateUser
   validatorStub: ValidatorStub
 }
 
@@ -21,11 +23,13 @@ const makeSut = (): SutTypes => {
   const validatorStub = new ValidatorStub()
   const createUser = new CreateUser(userRepositoryStub, cryptoStub)
   const listUserById = new ListUserById(userRepositoryStub)
-  const sut = new UserController(validatorStub, createUser, listUserById)
+  const updateUser = new UpdateUser(userRepositoryStub, cryptoStub)
+  const sut = new UserController(validatorStub, createUser, listUserById, updateUser)
   return {
     sut,
     createUser,
     listUserById,
+    updateUser,
     validatorStub
   }
 }
@@ -165,6 +169,95 @@ describe('User controller', () => {
 
       const httpResponse = await sut.show(httpRequest)
       expect(httpResponse.body.message).toEqual('User not found')
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
+    })
+  })
+
+  describe('updateUser', () => {
+    it('should call updateUser with correct params', async () => {
+      const { sut } = makeSut()
+
+      const httpRequest = {
+        userId: 'fake_user_id',
+        body: {
+          username: 'fake_username',
+          email: 'fake@mail.com',
+          password: 'fake_password'
+        }
+      }
+
+      const httpResponse = await sut.update(httpRequest)
+      expect(httpResponse.body.username).toEqual('fake_username')
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.ok.code)
+    })
+
+    it('should throw server error if usecase throws', async () => {
+      const { sut, updateUser } = makeSut()
+      jest.spyOn(updateUser, 'execute').mockReturnValueOnce(Promise.reject(new ServerError('Internal Server Error')))
+
+      const httpRequest = {
+        userId: 'fake_user_id',
+        body: {
+          username: 'fake_username',
+          email: 'fake@mail.com',
+          password: 'fake_password'
+        }
+      }
+
+      const httpResponse = await sut.update(httpRequest)
+      expect(httpResponse.body).toEqual('Internal Server Error')
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.serverError.code)
+    })
+
+    it('should return a bad request if user id is not found', async () => {
+      const { sut, updateUser } = makeSut()
+      jest.spyOn(updateUser, 'execute').mockReturnValueOnce(Promise.reject(new UserNotFoundError('User not found')))
+
+      const httpRequest = {
+        userId: 'wrong_user_id',
+        body: {
+          username: 'fake_username',
+          email: 'fake@mail.com',
+          password: 'fake_password'
+        }
+      }
+
+      const httpResponse = await sut.update(httpRequest)
+      expect(httpResponse.body.message).toEqual('User not found')
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
+    })
+
+    it('should return a bad request if mandatory param is missing', async () => {
+      const { sut } = makeSut()
+
+      const httpRequest = {
+        userId: 'fake_user_id',
+        body: {
+          email: 'fake@mail.com',
+          password: 'fake_password'
+        }
+      }
+
+      const httpResponse = await sut.update(httpRequest)
+      expect(httpResponse.body.message).toEqual('Missing fields')
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
+    })
+
+    it('should return a bad request if data validation fails', async () => {
+      const { sut, validatorStub } = makeSut()
+      jest.spyOn(validatorStub, 'validate').mockReturnValueOnce(false)
+
+      const httpRequest = {
+        userId: 'fake_user_id',
+        body: {
+          username: 'fake_username',
+          email: 'invalid_mail',
+          password: 'fake_password'
+        }
+      }
+
+      const httpResponse = await sut.update(httpRequest)
+      expect(httpResponse.body.message).toEqual('Invalid fields')
       expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
     })
   })

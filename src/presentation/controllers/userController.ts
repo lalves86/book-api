@@ -3,6 +3,7 @@ import { UserAlreadyExistsError } from '@/data/error/users'
 import { UserNotFoundError } from '@/data/error/users/userNotFoundError'
 import { CreateUser } from '@/data/usecases/users/createUser'
 import { ListUserById } from '@/data/usecases/users/listUserById'
+import { UpdateUser } from '@/data/usecases/users/updateUser'
 import { HttpRequest, HttpResponse, HttpStatusCodes } from '../types/http'
 import { Validator } from '../validator'
 
@@ -10,7 +11,8 @@ export class UserController {
   constructor (
     private readonly validator: Validator<CreateUserDto>,
     private readonly createUser: CreateUser,
-    private readonly listUserById: ListUserById
+    private readonly listUserById: ListUserById,
+    private readonly updateUser: UpdateUser
   ) {}
 
   async create (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -59,6 +61,51 @@ export class UserController {
   async show (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const response = await this.listUserById.execute(httpRequest.params.id)
+      return {
+        httpStatusCode: HttpStatusCodes.ok.code,
+        body: response
+      }
+    } catch (error) {
+      if (error instanceof UserNotFoundError) {
+        return {
+          httpStatusCode: HttpStatusCodes.badRequest.code,
+          body: {
+            message: error.message
+          }
+        }
+      }
+
+      return {
+        httpStatusCode: HttpStatusCodes.serverError.code,
+        body: error.message
+      }
+    }
+  }
+
+  async update (httpRequest: HttpRequest): Promise<HttpResponse> {
+    try {
+      const requiredFields = ['username', 'email', 'password']
+      const isBodyComplete = requiredFields.every(field => httpRequest.body[field])
+      if (!isBodyComplete) {
+        return {
+          httpStatusCode: HttpStatusCodes.badRequest.code,
+          body: {
+            message: 'Missing fields'
+          }
+        }
+      }
+      const isBodyValid = this.validator.validate(httpRequest.body)
+      if (!isBodyValid) {
+        return {
+          httpStatusCode: HttpStatusCodes.badRequest.code,
+          body: {
+            message: 'Invalid fields'
+          }
+        }
+      }
+      const { userId } = httpRequest
+      const { body } = httpRequest
+      const response = await this.updateUser.execute({ userId, ...body })
       return {
         httpStatusCode: HttpStatusCodes.ok.code,
         body: response

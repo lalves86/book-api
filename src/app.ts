@@ -1,9 +1,9 @@
 import express, { json } from 'express'
 import { mongooseConnect } from './main/config/mongooseConfig'
-import { rabbitMqConsumerConfig } from './main/config/rabbitMqConsumerConfig'
+import { rabbitMqConsumer } from './infra/queue/rabbitMqConsumer'
 import router from './main/routes'
 
-rabbitMqConsumerConfig()
+rabbitMqConsumer()
 mongooseConnect()
 const app = express()
 app.use(json())

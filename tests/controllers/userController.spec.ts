@@ -9,9 +9,10 @@ import { ListUserById } from '@/data/usecases/users/listUserById'
 import { UserNotFoundError } from '@/data/error/users/userNotFoundError'
 import { UpdateUser } from '@/data/usecases/users/updateUser'
 import { DeleteUser } from '@/data/usecases/users/deleteUser'
-import { MailServiceStub, mailStub } from '@test/usecases/stubs/mailServiceStub'
+import { mailStub } from '@test/usecases/stubs/mailServiceStub'
 import { UserCreationMail } from '@/data/usecases/mailNotification/userCreationMail'
 import { MailParserStub } from '@test/usecases/stubs/mailParserStub'
+import { QueueProducerStub } from '@test/usecases/stubs/queueProducerStub'
 
 type SutTypes = {
   sut: UserController
@@ -26,9 +27,9 @@ const makeSut = (): SutTypes => {
   const userRepositoryStub = new UserRepositoryStub()
   const cryptoStub = new CryptoStub()
   const validatorStub = new ValidatorStub()
-  const mailServiceStub = new MailServiceStub()
+  const queueProducerStub = new QueueProducerStub()
   const mailParserStub = new MailParserStub()
-  const userCreationMail = new UserCreationMail(mailStub, mailServiceStub, mailParserStub)
+  const userCreationMail = new UserCreationMail(mailStub, queueProducerStub, mailParserStub)
   const createUser = new CreateUser(userRepositoryStub, cryptoStub, userCreationMail)
   const listUserById = new ListUserById(userRepositoryStub)
   const updateUser = new UpdateUser(userRepositoryStub, cryptoStub)

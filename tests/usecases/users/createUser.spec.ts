@@ -5,7 +5,8 @@ import { CreateUser } from '@/data/usecases/users/createUser'
 import Mockdate from 'mockdate'
 import { CryptoStub } from '../stubs/cryptoStub'
 import { MailParserStub } from '../stubs/mailParserStub'
-import { MailServiceStub, mailStub } from '../stubs/mailServiceStub'
+import { mailStub } from '../stubs/mailServiceStub'
+import { QueueProducerStub } from '../stubs/queueProducerStub'
 import { UserRepositoryStub } from '../stubs/userRepositoryStub'
 
 type sutTypes = {
@@ -17,9 +18,9 @@ type sutTypes = {
 const makeSut = (): sutTypes => {
   const userRepositoryStub = new UserRepositoryStub()
   const cryptoStub = new CryptoStub()
-  const mailServiceStub = new MailServiceStub()
+  const queueProducerStub = new QueueProducerStub()
   const mailParserStub = new MailParserStub()
-  const userCreationMail = new UserCreationMail(mailStub, mailServiceStub, mailParserStub)
+  const userCreationMail = new UserCreationMail(mailStub, queueProducerStub, mailParserStub)
   const sut = new CreateUser(userRepositoryStub, cryptoStub, userCreationMail)
   return {
     sut,

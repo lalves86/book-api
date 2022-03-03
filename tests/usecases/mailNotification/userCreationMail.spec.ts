@@ -1,32 +1,33 @@
 import { MailServiceError } from '@/data/error/mail/mailServiceError'
 import { UserCreationMail } from '@/data/usecases/mailNotification/userCreationMail'
 import { MailParserStub } from '../stubs/mailParserStub'
-import { MailServiceStub, mailStub } from '../stubs/mailServiceStub'
+import { mailStub } from '../stubs/mailServiceStub'
+import { QueueProducerStub } from '../stubs/queueProducerStub'
 
 type SutTypes = {
   sut: UserCreationMail
-  mailServiceStub: MailServiceStub
+  queueProducerStub: QueueProducerStub
   mailParserStub: MailParserStub
 }
 
 const makeSut = (): SutTypes => {
-  const mailServiceStub = new MailServiceStub()
+  const queueProducerStub = new QueueProducerStub()
   const mailParserStub = new MailParserStub()
-  const sut = new UserCreationMail(mailStub, mailServiceStub, mailParserStub)
+  const sut = new UserCreationMail(mailStub, queueProducerStub, mailParserStub)
   return {
     sut,
-    mailServiceStub,
+    queueProducerStub,
     mailParserStub
   }
 }
 
 describe('UserCreationMail', () => {
-  it('should send an email when user is created', async () => {
+  it('should add to queue when user is created', async () => {
     const { sut } = makeSut()
 
     const user = {
-      username: 'fake_username',
-      email: 'fake@mail.com',
+      username: 'To',
+      email: 'to@mail.com',
       password: 'fake_password'
     }
 
@@ -35,8 +36,8 @@ describe('UserCreationMail', () => {
   })
 
   it('should throw if email service throws', async () => {
-    const { sut, mailServiceStub } = makeSut()
-    jest.spyOn(mailServiceStub, 'send').mockReturnValueOnce(Promise.resolve(null))
+    const { sut, queueProducerStub } = makeSut()
+    jest.spyOn(queueProducerStub, 'addToQueue').mockReturnValueOnce(Promise.resolve(null))
 
     const user = {
       username: 'fake_username',

@@ -13,13 +13,13 @@ import { DeleteUser } from '@/data/usecases/users/deleteUser'
 import { UserCreationMail } from '@/data/usecases/mailNotification/userCreationMail'
 import { HandlebarsMailParserAdapter } from '@/infra/mailParser/handlebarsMailParserAdapter'
 import { nodemailerConfig } from '../config/nodemailerConfig'
-import { RabbitMqProducerAdapter } from '@/infra/queue/RabbitMqProducerAdapter'
+import { RabbitMqProducer } from '@/infra/queue/RabbitMqProducer'
 
 export const makeUserController = (): UserController => {
   const validator: Validator<CreateUserDto> = new JoiValidator()
   const crypto: Crypto = new BcryptAdapter()
   const userRepository: UserRepository = new UserRepositoryMongoose()
-  const queueProducer = new RabbitMqProducerAdapter()
+  const queueProducer = new RabbitMqProducer()
   const mailParser = new HandlebarsMailParserAdapter()
   const userCreationMail = new UserCreationMail(nodemailerConfig(), queueProducer, mailParser)
   const createUser = new CreateUser(userRepository, crypto, userCreationMail)

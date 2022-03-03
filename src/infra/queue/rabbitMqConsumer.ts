@@ -6,8 +6,8 @@ export const rabbitMqConsumer = async () => {
   const connection = await rabbitMqConfig()
   console.log('Consumer connected')
   const channel = await connection.createChannel()
-  const queue = 'mailQueue'
-  await channel.assertQueue(queue, { durable: false })
+  const queue = 'mail-queue'
+  await channel.assertQueue(queue, { durable: true })
   channel.consume(queue, msg => {
     const content = JSON.parse(msg.content.toString())
     mailService.send(content)

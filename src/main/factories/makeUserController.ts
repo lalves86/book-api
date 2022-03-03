@@ -3,7 +3,6 @@ import { Validator } from '@/presentation/validator'
 import { BcryptAdapter } from '@/infra/cryptography/bcryptAdapter'
 import { UserRepositoryMongoose } from '@/infra/repositories/implementations/userRepositoryMongoose'
 import { JoiValidator } from '@/infra/validators/createUserJoiValidator'
-import { NodemailerAdapter } from '@/infra/mailService/nodemailerAdapter'
 import { CreateUserDto } from '@/data/dtos/users'
 import { Crypto } from '@/data/ports/criptography'
 import { UserRepository } from '@/data/ports/repositories'
@@ -14,14 +13,15 @@ import { DeleteUser } from '@/data/usecases/users/deleteUser'
 import { UserCreationMail } from '@/data/usecases/mailNotification/userCreationMail'
 import { HandlebarsMailParserAdapter } from '@/infra/mailParser/handlebarsMailParserAdapter'
 import { nodemailerConfig } from '../config/nodemailerConfig'
+import { RabbitMqProducerAdapter } from '@/infra/queue/RabbitMqProducerAdapter'
 
 export const makeUserController = (): UserController => {
   const validator: Validator<CreateUserDto> = new JoiValidator()
   const crypto: Crypto = new BcryptAdapter()
   const userRepository: UserRepository = new UserRepositoryMongoose()
-  const mailService = new NodemailerAdapter()
+  const queueProducer = new RabbitMqProducerAdapter()
   const mailParser = new HandlebarsMailParserAdapter()
-  const userCreationMail = new UserCreationMail(nodemailerConfig(), mailService, mailParser)
+  const userCreationMail = new UserCreationMail(nodemailerConfig(), queueProducer, mailParser)
   const createUser = new CreateUser(userRepository, crypto, userCreationMail)
   const listUserById = new ListUserById(userRepository)
   const updateUser = new UpdateUser(userRepository, crypto)

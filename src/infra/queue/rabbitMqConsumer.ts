@@ -12,6 +12,6 @@ export const rabbitMqConsumer = async () => {
     const content = JSON.parse(msg.content.toString())
     mailService.send(content)
   }, {
-    noAck: true
+    noAck: false
   })
 }

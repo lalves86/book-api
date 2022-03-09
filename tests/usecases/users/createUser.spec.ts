@@ -1,5 +1,5 @@
 import { CreateUserDto } from '@/data/dtos/users'
-import { UserAlreadyExistsError } from '@/data/error/users/userAlreadyExistsError'
+import { UserAlreadyExistsError } from '@/data/error/users'
 import { UserCreationMail } from '@/data/usecases/mailNotification/userCreationMail'
 import { CreateUser } from '@/data/usecases/users/createUser'
 import Mockdate from 'mockdate'

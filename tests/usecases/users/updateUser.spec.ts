@@ -1,5 +1,5 @@
 import { UpdateUserDto } from '@/data/dtos/users'
-import { UserNotFoundError } from '@/data/error/users/userNotFoundError'
+import { UserNotFoundError } from '@/data/error/users'
 import { UpdateUser } from '@/data/usecases/users/updateUser'
 import Mockdate from 'mockdate'
 import { CryptoStub } from '../stubs/cryptoStub'

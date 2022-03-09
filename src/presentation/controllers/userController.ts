@@ -1,7 +1,6 @@
 import { CreateUserDto } from '@/data/dtos/users'
 import { MailServiceError } from '@/data/error/mail/mailServiceError'
-import { UserAlreadyExistsError } from '@/data/error/users'
-import { UserNotFoundError } from '@/data/error/users/userNotFoundError'
+import { UserAlreadyExistsError, UserNotFoundError } from '@/data/error/users'
 import { CreateUser } from '@/data/usecases/users/createUser'
 import { DeleteUser } from '@/data/usecases/users/deleteUser'
 import { ListUserById } from '@/data/usecases/users/listUserById'

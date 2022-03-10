@@ -3,7 +3,7 @@ import { ServerError } from '@/presentation/error/serverError'
 import { HttpStatusCodes } from '@/presentation/types/http'
 import { InvalidCredentialsError } from '@/data/error/users'
 import { AuthenticateUser } from '@/data/usecases/users/authenticateUser'
-import { CryptoStub, UserRepositoryStub, ValidatorStub, AccessTokenStub } from '@test/usecases/stubs'
+import { CryptoStub, UserRepositoryStub, ValidatorStub, AccessTokenStub } from '@test/stubs'
 
 type SutTypes = {
   sut: AuthController,

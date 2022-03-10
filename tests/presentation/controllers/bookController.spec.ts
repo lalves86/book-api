@@ -2,7 +2,7 @@ import Mockdate from 'mockdate'
 import { BookController } from '@/presentation/controllers/bookController'
 import { HttpStatusCodes } from '@/presentation/types/http'
 import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook, ListBooksByUser, UploadFile } from '@/data/usecases/books'
-import { BookRepositoryStub } from '@test/usecases/stubs/bookRepositoryStub'
+import { BookRepositoryStub } from '@test/stubs'
 import { ServerError } from '@/presentation/error/serverError'
 import { BookAlreadyExistsError, BookNotFoundError, InvalidDataError } from '@/data/error/books'
 

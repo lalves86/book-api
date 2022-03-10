@@ -2,7 +2,7 @@ import { UploadImageDto } from '@/data/dtos/books'
 import { BookNotFoundError } from '@/data/error/books'
 import { UploadFile } from '@/data/usecases/books/uploadFile'
 import Mockdate from 'mockdate'
-import { BookRepositoryStub } from '../stubs'
+import { BookRepositoryStub } from '@test/stubs'
 
 type sutTypes = {
   sut: UploadFile

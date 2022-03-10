@@ -1,7 +1,7 @@
 import { UserNotFoundError } from '@/data/error/users'
 import { ListUserById } from '@/data/usecases/users/listUserById'
 import Mockdate from 'mockdate'
-import { UserRepositoryStub } from '../stubs/userRepositoryStub'
+import { UserRepositoryStub } from '@test/stubs'
 
 type sutTypes = {
   sut: ListUserById

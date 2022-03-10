@@ -1,9 +1,9 @@
 import { AuthUserDto } from '@/data/dtos/users'
 import { InvalidCredentialsError } from '@/data/error/users'
 import { AuthenticateUser } from '@/data/usecases/users/authenticateUser'
-import { AccessTokenStub } from '../stubs/accessTokenStub'
-import { CryptoStub } from '../stubs/cryptoStub'
-import { UserRepositoryStub } from '../stubs/userRepositoryStub'
+import { AccessTokenStub } from '@test/stubs/accessTokenStub'
+import { CryptoStub } from '@test/stubs/cryptoStub'
+import { UserRepositoryStub } from '@test/stubs/userRepositoryStub'
 
 type sutTypes = {
   sut: AuthenticateUser

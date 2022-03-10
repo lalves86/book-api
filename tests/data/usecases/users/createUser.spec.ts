@@ -3,11 +3,11 @@ import { UserAlreadyExistsError } from '@/data/error/users'
 import { UserCreationMail } from '@/data/usecases/mailNotification/userCreationMail'
 import { CreateUser } from '@/data/usecases/users/createUser'
 import Mockdate from 'mockdate'
-import { CryptoStub } from '../stubs/cryptoStub'
-import { MailParserStub } from '../stubs/mailParserStub'
-import { mailStub } from '../stubs/mailServiceStub'
-import { QueueProducerStub } from '../stubs/queueProducerStub'
-import { UserRepositoryStub } from '../stubs/userRepositoryStub'
+import { CryptoStub } from '@test/stubs/cryptoStub'
+import { MailParserStub } from '@test/stubs/mailParserStub'
+import { mailStub } from '@test/stubs/mailServiceStub'
+import { QueueProducerStub } from '@test/stubs/queueProducerStub'
+import { UserRepositoryStub } from '@test/stubs'
 
 type sutTypes = {
   sut: CreateUser

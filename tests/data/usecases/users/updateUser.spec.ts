@@ -2,8 +2,8 @@ import { UpdateUserDto } from '@/data/dtos/users'
 import { UserNotFoundError } from '@/data/error/users'
 import { UpdateUser } from '@/data/usecases/users/updateUser'
 import Mockdate from 'mockdate'
-import { CryptoStub } from '../stubs/cryptoStub'
-import { UserRepositoryStub } from '../stubs/userRepositoryStub'
+import { CryptoStub } from '@test/stubs/cryptoStub'
+import { UserRepositoryStub } from '@test/stubs'
 
 type sutTypes = {
   sut: UpdateUser

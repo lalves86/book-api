@@ -9,4 +9,5 @@ export type Book = {
   grade?: number
   status: BookStatus
   userId: string
+  imageUrl?: string
 }

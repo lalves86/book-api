@@ -39,7 +39,8 @@ describe('ListBookById', () => {
       finishedAt: new Date(),
       grade: 5,
       status: 'Read',
-      userId: 'fake_user_id'
+      userId: 'fake_user_id',
+      imageUrl: 'http://fake.url'
     })
   })
 

@@ -1,7 +1,7 @@
 import Mockdate from 'mockdate'
 import { BookController } from '@/presentation/controllers/bookController'
 import { HttpStatusCodes } from '@/presentation/types/http'
-import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook, ListBooksByUser } from '@/data/usecases/books'
+import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook, ListBooksByUser, UploadFile } from '@/data/usecases/books'
 import { BookRepositoryStub } from '@test/usecases/stubs/bookRepositoryStub'
 import { ServerError } from '@/presentation/error/serverError'
 import { BookAlreadyExistsError, BookNotFoundError, InvalidDataError } from '@/data/error/books'
@@ -14,6 +14,7 @@ type SutTypes = {
   updateBook: UpdateBook,
   deleteBook: DeleteBook,
   listBooksByUser: ListBooksByUser
+  uploadFile: UploadFile
 }
 
 const makeSut = (): SutTypes => {
@@ -24,13 +25,15 @@ const makeSut = (): SutTypes => {
   const updateBook: UpdateBook = new UpdateBook(bookRepository)
   const deleteBook: DeleteBook = new DeleteBook(bookRepository)
   const listBooksByUser = new ListBooksByUser(bookRepository)
+  const uploadFile = new UploadFile(bookRepository)
   const sut = new BookController(
     createBook,
     listBooks,
     listBookById,
     updateBook,
     deleteBook,
-    listBooksByUser
+    listBooksByUser,
+    uploadFile
   )
   return {
     sut,
@@ -39,7 +42,8 @@ const makeSut = (): SutTypes => {
     listBookById,
     updateBook,
     deleteBook,
-    listBooksByUser
+    listBooksByUser,
+    uploadFile
   }
 }
 
@@ -390,6 +394,52 @@ describe('BookController', () => {
       const httpResponse = await sut.booksByUser(httpRequest)
       expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.serverError.code)
       expect(httpResponse.body).toEqual('Internal Server Error')
+    })
+  })
+
+  describe('uploadFile', () => {
+    it('should call uploadFile with correct params', async () => {
+      const { sut } = makeSut()
+      const httpRequest = {
+        params: {
+          id: 'fake_id'
+        },
+        file: 'http://fake.url'
+      }
+
+      const httpResponse = await sut.uploadImage(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.ok.code)
+      expect(httpResponse.body.imageUrl).toEqual(httpRequest.file)
+    })
+
+    it('should throw server error if usecase throws', async () => {
+      const { sut, uploadFile } = makeSut()
+      jest.spyOn(uploadFile, 'execute').mockReturnValueOnce(Promise.reject(new ServerError('Internal Server Error')))
+      const httpRequest = {
+        params: {
+          id: 'fake_id'
+        },
+        file: 'http://fake.url'
+      }
+
+      const httpResponse = await sut.uploadImage(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.serverError.code)
+      expect(httpResponse.body).toEqual('Internal Server Error')
+    })
+
+    it('should throw bad request if book id is not found', async () => {
+      const { sut, uploadFile } = makeSut()
+      jest.spyOn(uploadFile, 'execute').mockReturnValueOnce(Promise.reject(new BookNotFoundError('Book id not found')))
+      const httpRequest = {
+        params: {
+          id: 'fake_id'
+        },
+        file: 'http://fake.url'
+      }
+
+      const httpResponse = await sut.uploadImage(httpRequest)
+      expect(httpResponse.httpStatusCode).toEqual(HttpStatusCodes.badRequest.code)
+      expect(httpResponse.body.message).toEqual('Book id not found')
     })
   })
 })

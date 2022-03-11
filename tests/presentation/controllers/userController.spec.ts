@@ -1,17 +1,17 @@
 import Mockdate from 'mockdate'
 import { UserController } from '@/presentation/controllers/userController'
 import { CreateUser } from '@/data/usecases/users/createUser'
-import { UserRepositoryStub, ValidatorStub, CryptoStub } from '@test/usecases/stubs'
+import { UserRepositoryStub, ValidatorStub, CryptoStub } from '@test/stubs'
 import { HttpStatusCodes } from '@/presentation/types/http'
 import { ServerError } from '@/presentation/error/serverError'
 import { UserAlreadyExistsError, UserNotFoundError } from '@/data/error/users'
 import { ListUserById } from '@/data/usecases/users/listUserById'
 import { UpdateUser } from '@/data/usecases/users/updateUser'
 import { DeleteUser } from '@/data/usecases/users/deleteUser'
-import { mailStub } from '@test/usecases/stubs/mailServiceStub'
+import { mailStub } from '@test/stubs/mailServiceStub'
 import { UserCreationMail } from '@/data/usecases/mailNotification/userCreationMail'
-import { MailParserStub } from '@test/usecases/stubs/mailParserStub'
-import { QueueProducerStub } from '@test/usecases/stubs/queueProducerStub'
+import { MailParserStub } from '@test/stubs/mailParserStub'
+import { QueueProducerStub } from '@test/stubs/queueProducerStub'
 
 type SutTypes = {
   sut: UserController

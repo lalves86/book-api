@@ -1,6 +1,6 @@
 import { UserNotFoundError } from '@/data/error/users'
 import { DeleteUser } from '@/data/usecases/users/deleteUser'
-import { UserRepositoryStub } from '../stubs/userRepositoryStub'
+import { UserRepositoryStub } from '@test/stubs'
 
 type sutTypes = {
   sut: DeleteUser

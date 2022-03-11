@@ -13,7 +13,7 @@ import { DeleteUser } from '@/data/usecases/users/deleteUser'
 import { UserCreationMail } from '@/data/usecases/mailNotification/userCreationMail'
 import { HandlebarsMailParserAdapter } from '@/infra/mailParser/handlebarsMailParserAdapter'
 import { nodemailerConfig } from '../config/nodemailerConfig'
-import { RabbitMqProducer } from '@/infra/queue/RabbitMqProducer'
+import { RabbitMqProducer } from '@/infra/queue/rabbitMqProducer'
 
 export const makeUserController = (): UserController => {
   const validator: Validator<CreateUserDto> = new JoiValidator()

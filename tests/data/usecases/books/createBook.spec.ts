@@ -1,6 +1,6 @@
 import Mockdate from 'mockdate'
 import { CreateBook } from '@/data/usecases/books'
-import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
+import { BookRepositoryStub } from '@test/stubs'
 import { BookAlreadyExistsError, InvalidDataError } from '@/data/error/books'
 import { CreateBookDto } from '@/data/dtos/books/createBookDto'
 

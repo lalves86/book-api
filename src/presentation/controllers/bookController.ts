@@ -1,6 +1,7 @@
 import { CreateBook, DeleteBook, ListBookById, ListBooks, ListBooksByUser, UpdateBook } from '@/data/usecases/books'
 import { BookAlreadyExistsError, BookNotFoundError, InvalidDataError } from '@/data/error/books'
 import { HttpRequest, HttpResponse, HttpStatusCodes } from '../types/http'
+import { UploadFile } from '@/data/usecases/books/uploadFile'
 
 export class BookController {
   constructor (
@@ -9,7 +10,8 @@ export class BookController {
     private readonly listBookById: ListBookById,
     private readonly updateBook: UpdateBook,
     private readonly deleteBook: DeleteBook,
-    private readonly listBooksByUser: ListBooksByUser
+    private readonly listBooksByUser: ListBooksByUser,
+    private readonly uploadFile: UploadFile
   ) {}
 
   async create (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -169,6 +171,33 @@ export class BookController {
         body: response
       }
     } catch (error) {
+      return {
+        httpStatusCode: HttpStatusCodes.serverError.code,
+        body: error.message
+      }
+    }
+  }
+
+  async uploadImage (httpRequest: HttpRequest): Promise<HttpResponse> {
+    try {
+      const { id } = httpRequest.params
+      const { file } = httpRequest
+      const response = await this.uploadFile.execute({ id, imageUrl: file })
+
+      return {
+        httpStatusCode: HttpStatusCodes.ok.code,
+        body: response
+      }
+    } catch (error) {
+      if (error instanceof BookNotFoundError) {
+        return {
+          httpStatusCode: HttpStatusCodes.badRequest.code,
+          body: {
+            message: error.message
+          }
+        }
+      }
+
       return {
         httpStatusCode: HttpStatusCodes.serverError.code,
         body: error.message

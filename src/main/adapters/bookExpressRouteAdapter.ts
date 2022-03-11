@@ -52,6 +52,15 @@ export const adaptRoute = (controller: BookController) => {
       }
       const httpResponse = await controller.booksByUser(httpRequest)
       return res.status(httpResponse.httpStatusCode).json(httpResponse.body)
+    },
+    uploadImage: async (req: Request, res: Response): Promise<Response> => {
+      const { params, file } = req
+      const httpRequest: HttpRequest = {
+        params,
+        file: file.path
+      }
+      const httpResponse = await controller.uploadImage(httpRequest)
+      return res.status(httpResponse.httpStatusCode).json(httpResponse.body)
     }
   }
 }

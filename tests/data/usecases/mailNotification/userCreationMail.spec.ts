@@ -1,8 +1,8 @@
 import { MailServiceError } from '@/data/error/mail/mailServiceError'
 import { UserCreationMail } from '@/data/usecases/mailNotification/userCreationMail'
-import { MailParserStub } from '../stubs/mailParserStub'
-import { mailStub } from '../stubs/mailServiceStub'
-import { QueueProducerStub } from '../stubs/queueProducerStub'
+import { MailParserStub } from '@test/stubs/mailParserStub'
+import { mailStub } from '@test/stubs/mailServiceStub'
+import { QueueProducerStub } from '@test/stubs/queueProducerStub'
 
 type SutTypes = {
   sut: UserCreationMail

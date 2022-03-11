@@ -1,5 +1,5 @@
 import Mockdate from 'mockdate'
-import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
+import { BookRepositoryStub } from '@test/stubs'
 import { ListBookById } from '@/data/usecases/books'
 import { BookNotFoundError } from '@/data/error/books'
 
@@ -39,7 +39,8 @@ describe('ListBookById', () => {
       finishedAt: new Date(),
       grade: 5,
       status: 'Read',
-      userId: 'fake_user_id'
+      userId: 'fake_user_id',
+      imageUrl: 'http://fake.url'
     })
   })
 

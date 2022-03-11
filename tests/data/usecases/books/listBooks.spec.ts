@@ -1,6 +1,6 @@
 import Mockdate from 'mockdate'
 import { ListBooks } from '@/data/usecases/books'
-import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
+import { BookRepositoryStub } from '@test/stubs'
 
 const makeSut = (): ListBooks => {
   const bookRepositoryStub = new BookRepositoryStub()

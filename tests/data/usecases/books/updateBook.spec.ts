@@ -1,5 +1,5 @@
 import Mockdate from 'mockdate'
-import { BookRepositoryStub } from '../stubs/bookRepositoryStub'
+import { BookRepositoryStub } from '@test/stubs'
 import { BookNotFoundError, InvalidDataError } from '@/data/error/books'
 import { UpdateBook } from '@/data/usecases/books'
 import { UpdateBookDto } from '@/data/dtos/books'

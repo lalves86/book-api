@@ -1,6 +1,6 @@
 import { ListBooksByUser } from '@/data/usecases/books/listBooksByUser'
 import Mockdate from 'mockdate'
-import { BookRepositoryStub } from '../stubs'
+import { BookRepositoryStub } from '@test/stubs'
 
 type sutTypes = {
   sut: ListBooksByUser

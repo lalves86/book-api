@@ -30,5 +30,8 @@ export const bookSchema = new mongoose.Schema({
     type: String,
     ref: 'User',
     required: true
+  },
+  imageUrl: {
+    type: String
   }
 })

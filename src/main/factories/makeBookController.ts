@@ -1,4 +1,4 @@
-import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook, ListBooksByUser } from '@/data/usecases/books'
+import { CreateBook, DeleteBook, ListBookById, ListBooks, UpdateBook, ListBooksByUser, UploadFile } from '@/data/usecases/books'
 import { BookController } from '@/presentation/controllers/bookController'
 import { BookRepositoryMongoose } from '@/infra/repositories/implementations/bookRepositoryMongoose'
 import { BookRepository } from '@/data/ports/repositories'
@@ -11,6 +11,7 @@ export const makeBookController = (): BookController => {
   const updateBook = new UpdateBook(bookRepository)
   const deleteBook = new DeleteBook(bookRepository)
   const listBooksByUser = new ListBooksByUser(bookRepository)
+  const uploadFile = new UploadFile(bookRepository)
 
   return new BookController(
     createBook,
@@ -18,6 +19,7 @@ export const makeBookController = (): BookController => {
     listBookById,
     updateBook,
     deleteBook,
-    listBooksByUser
+    listBooksByUser,
+    uploadFile
   )
 }
